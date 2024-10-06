@@ -55,7 +55,9 @@ class EndToEnd(unittest.TestCase):
 
             self.assertTrue(False)  # the previous line should throw an exception
         except requests.exceptions.HTTPError as e:
-            self.assertTrue(str(e).startswith("{\"detail\":\"Invalid Location Specification\"}"))
+            self.assertTrue(
+                str(e).startswith('{"detail":"Invalid Location Specification"}')
+            )
 
 
 class BasicFunctionality(unittest.TestCase):
