@@ -5,7 +5,7 @@ from pirateweather.models import Forecast
 
 
 def load_forecast(
-    key, lat, lng, time=None, units="auto", lang="en", lazy=False, callback=None
+    key, lat, lng, time=None, units="us", lang="en", lazy=False, callback=None
 ):
     """
     This function builds the request url and loads some or all of the
@@ -16,7 +16,7 @@ def load_forecast(
     time:   A datetime.datetime object representing the desired time of
            the forecast. If no timezone is present, the API assumes local
            time at the provided latitude and longitude.
-    units:  A string of the preferred units of measurement, "auto" id
+    units:  A string of the preferred units of measurement, "us" id
             default. also us,ca,uk,si is available
     lang:   Return summary properties in the desired language
     lazy:   Defaults to false.  The function will only request the json
@@ -25,7 +25,7 @@ def load_forecast(
     """
 
     if time is None:
-        url = "https://api.pirateweather.net/%s/%s,%s" "?units=%s&lang=%s" % (
+        url = "https://api.pirateweather.net/forecast/%s/%s,%s" "?units=%s&lang=%s" % (
             key,
             lat,
             lng,
@@ -36,7 +36,7 @@ def load_forecast(
         url_time = time.replace(
             microsecond=0
         ).isoformat()  # API returns 400 for microseconds
-        url = "https://api.pirateweather.net/%s/%s,%s,%s" "?units=%s&lang=%s" % (
+        url = "https://api.pirateweather.net/forecast/%s/%s,%s,%s" "?units=%s&lang=%s" % (
             key,
             lat,
             lng,
