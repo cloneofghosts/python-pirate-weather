@@ -36,13 +36,17 @@ def load_forecast(
         url_time = time.replace(
             microsecond=0
         ).isoformat()  # API returns 400 for microseconds
-        url = "https://api.pirateweather.net/forecast/%s/%s,%s,%s" "?units=%s&lang=%s" % (
-            key,
-            lat,
-            lng,
-            url_time,
-            units,
-            lang,
+        url = (
+            "https://api.pirateweather.net/forecast/%s/%s,%s,%s"
+            "?units=%s&lang=%s"
+            % (
+                key,
+                lat,
+                lng,
+                url_time,
+                units,
+                lang,
+            )
         )
 
     if lazy is True:
