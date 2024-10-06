@@ -20,9 +20,7 @@ setup(
     version="1.4.0",
     author="Ze'ev Gilovitz",
     author_email="zeev.gil@gmail.com",
-    description=(
-        "A thin Python Wrapper for the Pirate Weather API"
-    ),
+    description=("A thin Python Wrapper for the Pirate Weather API"),
     license="BSD 2-clause",
     keywords="weather API wrapper forecast.io location darksky",
     url="http://zeevgilovitz.com/python-forecast.io/",

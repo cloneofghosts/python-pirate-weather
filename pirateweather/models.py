@@ -67,12 +67,18 @@ class PirateWeatherDataBlock(UnicodeMixin):
         self.summary = d.get("summary")
         self.icon = d.get("icon")
 
-        self.data = [PirateWeatherDataPoint(datapoint) for datapoint in d.get("data", [])]
+        self.data = [
+            PirateWeatherDataPoint(datapoint) for datapoint in d.get("data", [])
+        ]
 
     def __unicode__(self):
-        return "<PirateWeatherDataBlock instance: " "%s with %d PirateWeatherDataPoints>" % (
-            self.summary,
-            len(self.data),
+        return (
+            "<PirateWeatherDataBlock instance: "
+            "%s with %d PirateWeatherDataPoints>"
+            % (
+                self.summary,
+                len(self.data),
+            )
         )
 
 
