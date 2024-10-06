@@ -22,7 +22,7 @@ Simple!
 
 ## Basic Use
 
-Although you don't need to know anything about the Dark Sky API to use this module, their docs are available at https://pirateweather.net/en/latest/.
+Although you don't need to know anything about the Pirate Weather API to use this module, their docs are available at https://pirateweather.net/en/latest/.
 
 To use the wrapper:
 
@@ -64,25 +64,25 @@ The .data attributes for each DataBlock is a list of DataPoint objects. This is 
 This makes an API request and returns a **Forecast** object (see below).
 
 Parameters:
-	- **key** - Your API key from https://pirateweather.net/en/latest/.
-	- **latitude** - The latitude of the location for the forecast
-	- **longitude** - The longitude of the location for the forecast
-	- **time** - (optional) A datetime object for the forecast either in the past or future - see How Timezones Work below for the details on how timezones are handled in this library.
-	- **lang** - (optional) A string of the desired language. See https://pirateweather.net/en/latest/API/#time-machine-request for supported languages.
-	- **units** - (optional) A string of the preferred units of measurement, "auto" is the default. "us","ca","uk","si" are also available. See the API Docs (https://pirateweather.net/en/latest/API/#units) for exactly what each unit means.
-	- **lazy** - (optional) Defaults to `false`.  If `true` the function will request the json data as it is needed. Results in more requests, but maybe a faster response time.
-	- **callback** - (optional) Pass a function to be used as a callback. If used, load_forecast() will use an asynchronous HTTP call and **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
+- **key** - Your API key from https://pirateweather.net/en/latest/.
+- **latitude** - The latitude of the location for the forecast
+- **longitude** - The longitude of the location for the forecast
+- **time** - (optional) A datetime object for the forecast either in the past or future - see How Timezones Work below for the details on how timezones are handled in this library.
+- **lang** - (optional) A string of the desired language. See https://pirateweather.net/en/latest/API/#time-machine-request for supported languages.
+- **units** - (optional) A string of the preferred units of measurement, "us" is the default. "us","ca","uk","si" are also available. See the API Docs (https://pirateweather.net/en/latest/API/#units) for exactly what each unit means.
+- **lazy** - (optional) Defaults to `false`.  If `true` the function will request the json data as it is needed. Results in more requests, but maybe a faster response time.
+- **callback** - (optional) Pass a function to be used as a callback. If used, load_forecast() will use an asynchronous HTTP call and **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
 
 ----------------------------------------------------
 
 
 *function* pirateweather.manual(url)
 ----------------------------------------------------
-This function allows manual creation of the URL for the Dark Sky API request.  This method won't be required often but can be used to take advantage of new or beta features of the API which this wrapper does not support yet. Returns a **Forecast** object (see below).
+This function allows manual creation of the URL for the Pirate Weather API request.  This method won't be required often but can be used to take advantage of new or beta features of the API which this wrapper does not support yet. Returns a **Forecast** object (see below).
 
 Parameters:
-        - **url** - The URL which the wrapper will attempt build a forecast from.
-    	- **callback** - (optional) Pass a function to be used as a callback. If used, an asynchronous HTTP call will be used and ``pirateweather.manual`` **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
+- **url** - The URL which the wrapper will attempt build a forecast from.
+- **callback** - (optional) Pass a function to be used as a callback. If used, an asynchronous HTTP call will be used and ``pirateweather.manual`` **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
 
 ----------------------------------------------------
 
@@ -90,27 +90,27 @@ Parameters:
 *class* pirateweather.models.Forecast
 ------------------------------------
 
-The **Forecast** object, it contains both weather data and the HTTP response from Dark Sky
+The **Forecast** object, it contains both weather data and the HTTP response from Pirate Weather
 
 **Attributes**
-	- **response**
-		- The Response object returned from requests request.get() method. See https://requests.readthedocs.org/en/latest/api/#requests.Response
-	- **http_headers**
-		- A dictionary of response headers. 'X-Forecast-API-Calls' might be of interest, it contains the number of API calls made by the given API key for today.
-	- **json**
-		- A dictionary containing the json data returned from the API call.
+- **response**
+	- The Response object returned from requests request.get() method. See https://requests.readthedocs.org/en/latest/api/#requests.Response
+- **http_headers**
+	- A dictionary of response headers. 'X-Forecast-API-Calls' might be of interest, it contains the number of API calls made by the given API key for the month.
+- **json**
+	- A dictionary containing the json data returned from the API call.
 
 **Methods**
-	- **currently()**
-		- Returns a PirateWeatherDataPoint object
-	- **minutely()**
-		- Returns a PirateWeatherDataBlock object
-	- **hourly()**
-		- Returns a PirateWeatherDataBlock object
-	- **daily()**
-		- Returns a PirateWeatherDataBlock object
-	- **update()**
-		- Refreshes the forecast data by making a new request.
+- **currently()**
+	- Returns a PirateWeatherDataPoint object
+- **minutely()**
+	- Returns a PirateWeatherDataBlock object
+- **hourly()**
+	- Returns a PirateWeatherDataBlock object
+- **daily()**
+	- Returns a PirateWeatherDataBlock object
+- **update()**
+	- Refreshes the forecast data by making a new request.
 
 ----------------------------------------------------
 
@@ -120,13 +120,13 @@ The **Forecast** object, it contains both weather data and the HTTP response fro
 
 Contains data about a forecast over time.
 
-**Attributes** *(descriptions taken from the darksky.net website)*
-	- **summary**
-		- A human-readable text summary of this data block.
-	- **icon**
-		- A machine-readable text summary of this data block.
-	- **data**
-		- An array of **PirateWeatherDataPoint** objects (see below), ordered by time, which together describe the weather conditions at the requested location over time.
+**Attributes** *(descriptions taken from the pirateweather.net website)*
+- **summary**
+	- A human-readable text summary of this data block.
+- **icon**
+	- A machine-readable text summary of this data block.
+- **data**
+	- An array of **PirateWeatherDataPoint** objects (see below), ordered by time, which together describe the weather conditions at the requested location over time.
 
 ----------------------------------------------------
 
@@ -138,19 +138,19 @@ Contains data about a forecast at a particular time.
 
 Data points have many attributes, but **not all of them are always available**. Some commonly used ones are:
 
-**Attributes** *(descriptions taken from the darksky.net website)*
-	-	**summary**
-		- A human-readable text summary of this data block.
-	-	**icon**
-		- A machine-readable text summary of this data block.
-	-	**time**
-		- The time at which this data point occurs.
-	-	**temperature**
-		- (not defined on daily data points): A numerical value representing the temperature at the given time.
-	-	**precipProbability**
-		- A numerical value between 0 and 1 (inclusive) representing the probability of precipitation occurring at the given time.
+**Attributes** *(descriptions taken from the pirateweather.net website)*
+-	**summary**
+	- A human-readable text summary of this data block.
+-	**icon**
+	- A machine-readable text summary of this data block.
+-	**time**
+	- The time at which this data point occurs.
+-	**temperature**
+	- (not defined on daily data points): A numerical value representing the temperature at the given time.
+-	**precipProbability**
+	- A numerical value between 0 and 1 (inclusive) representing the probability of precipitation occurring at the given time.
 
-For a full list of PirateWeatherDataPoint attributes and attribute descriptions, take a look at the Dark Sky data point documentation (https://pirateweather.net/en/latest/API/#data-point)
+For a full list of PirateWeatherDataPoint attributes and attribute descriptions, take a look at the Pirate Weather data point documentation (https://pirateweather.net/en/latest/API/#data-point)
 
 ----------------------------------------------------
 
