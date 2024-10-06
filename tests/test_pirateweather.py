@@ -61,7 +61,7 @@ class EndToEnd(unittest.TestCase):
 class BasicFunctionality(unittest.TestCase):
     @responses.activate
     def setUp(self):
-        URL = "https://api.darksky.net/forecast/foo/50.0,10.0?units=auto&lang=en"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en"
         responses.add(
             responses.GET,
             URL,
@@ -138,7 +138,7 @@ class BasicFunctionality(unittest.TestCase):
 class ForecastsWithAlerts(unittest.TestCase):
     @responses.activate
     def setUp(self):
-        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=auto&lang=en"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en"
         responses.add(
             responses.GET,
             URL,
