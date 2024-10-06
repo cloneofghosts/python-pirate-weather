@@ -11,7 +11,7 @@ from datetime import datetime
 
 class EndToEnd(unittest.TestCase):
     def setUp(self):
-        self.api_key = os.environ.get("PIRATEWEATHER_API_KEY")
+        self.api_key = ${{ secrets.PIRATE_API_KEY }}
 
         self.lat = 52.370235
         self.lng = 4.903549
@@ -38,14 +38,14 @@ class EndToEnd(unittest.TestCase):
         self.assertEqual(forecast.response.status_code, 200)
 
     def test_invalid_key(self):
-        self.api_key = "not a real key"
+        self.api_key = "foo"
 
         try:
             pirateweather.load_forecast(self.api_key, self.lat, self.lng)
 
             self.assertTrue(False)  # the previous line should throw an exception
         except requests.exceptions.HTTPError as e:
-            self.assertTrue(str(e).startswith("403 Client Error: Forbidden"))
+            self.assertTrue(str(e).startswith("Kong Error"))
 
     def test_invalid_param(self):
         self.lat = ""
@@ -55,7 +55,7 @@ class EndToEnd(unittest.TestCase):
 
             self.assertTrue(False)  # the previous line should throw an exception
         except requests.exceptions.HTTPError as e:
-            self.assertTrue(str(e).startswith("400 Client Error: Bad Request"))
+            self.assertTrue(str(e).startswith("{\"detail\":\"Invalid Location Specification\"}"))
 
 
 class BasicFunctionality(unittest.TestCase):
@@ -107,7 +107,7 @@ class BasicFunctionality(unittest.TestCase):
 
         self.assertEqual(
             "{}".format(currently),
-            "<ForecastioDataPoint instance: Overcast at 2014-05-28 08:27:39>",
+            "<PirateWeatherDataPoint instance: Overcast at 2014-05-28 08:27:39>",
         )
 
     def test_datablock_string_repr(self):
@@ -115,8 +115,8 @@ class BasicFunctionality(unittest.TestCase):
 
         self.assertEqual(
             "{}".format(hourly),
-            "<ForecastioDataBlock instance: Drizzle until this evening. "
-            "with 49 ForecastioDataPoints>",
+            "<PirateWeatherDataBlock instance: Drizzle until this evening. "
+            "with 49 PirateWeatherDataPoints>",
         )
 
     @raises(pirateweather.utils.PropertyUnavailable)
