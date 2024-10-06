@@ -3,7 +3,7 @@ import unittest
 import responses
 import requests
 
-import forecastio
+import pirateweather
 
 from nose.tools import raises
 from datetime import datetime
@@ -11,7 +11,7 @@ from datetime import datetime
 
 class EndToEnd(unittest.TestCase):
     def setUp(self):
-        self.api_key = os.environ.get("FORECASTIO_API_KEY")
+        self.api_key = os.environ.get("PIRATEWEATHER_API_KEY")
 
         self.lat = 52.370235
         self.lng = 4.903549
@@ -19,13 +19,13 @@ class EndToEnd(unittest.TestCase):
         self.time = datetime(2015, 2, 27, 6, 0, 0)
 
     def test_with_time(self):
-        forecast = forecastio.load_forecast(
+        forecast = pirateweather.load_forecast(
             self.api_key, self.lat, self.lng, time=self.time
         )
         self.assertEqual(forecast.response.status_code, 200)
 
     def test_with_language(self):
-        forecast = forecastio.load_forecast(
+        forecast = pirateweather.load_forecast(
             self.api_key, self.lat, self.lng, time=self.time, lang="de"
         )
         # Unfortunately the API doesn't return anything which
@@ -34,14 +34,14 @@ class EndToEnd(unittest.TestCase):
         self.assertTrue(forecast.response.url.find("lang=de") >= 0)
 
     def test_without_time(self):
-        forecast = forecastio.load_forecast(self.api_key, self.lat, self.lng)
+        forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng)
         self.assertEqual(forecast.response.status_code, 200)
 
     def test_invalid_key(self):
         self.api_key = "not a real key"
 
         try:
-            forecastio.load_forecast(self.api_key, self.lat, self.lng)
+            pirateweather.load_forecast(self.api_key, self.lat, self.lng)
 
             self.assertTrue(False)  # the previous line should throw an exception
         except requests.exceptions.HTTPError as e:
@@ -51,7 +51,7 @@ class EndToEnd(unittest.TestCase):
         self.lat = ""
 
         try:
-            forecastio.load_forecast(self.api_key, self.lat, self.lng)
+            pirateweather.load_forecast(self.api_key, self.lat, self.lng)
 
             self.assertTrue(False)  # the previous line should throw an exception
         except requests.exceptions.HTTPError as e:
@@ -74,7 +74,7 @@ class BasicFunctionality(unittest.TestCase):
         api_key = "foo"
         lat = 50.0
         lng = 10.0
-        self.fc = forecastio.load_forecast(api_key, lat, lng)
+        self.fc = pirateweather.load_forecast(api_key, lat, lng)
 
         self.assertEqual(responses.calls[0].request.url, URL)
 
@@ -119,7 +119,7 @@ class BasicFunctionality(unittest.TestCase):
             "with 49 ForecastioDataPoints>",
         )
 
-    @raises(forecastio.utils.PropertyUnavailable)
+    @raises(pirateweather.utils.PropertyUnavailable)
     def test_datapoint_attribute_not_available(self):
         daily = self.fc.daily()
         daily.data[0].notavailable
@@ -138,7 +138,7 @@ class BasicFunctionality(unittest.TestCase):
 class ForecastsWithAlerts(unittest.TestCase):
     @responses.activate
     def setUp(self):
-        URL = "https://api.darksky.net/forecast/foo/50.0,10.0?units=auto&lang=en"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=auto&lang=en"
         responses.add(
             responses.GET,
             URL,
@@ -151,7 +151,7 @@ class ForecastsWithAlerts(unittest.TestCase):
         api_key = "foo"
         lat = 50.0
         lng = 10.0
-        self.fc = forecastio.load_forecast(api_key, lat, lng)
+        self.fc = pirateweather.load_forecast(api_key, lat, lng)
 
     def test_alerts_length(self):
         alerts = self.fc.alerts()
@@ -180,7 +180,7 @@ class ForecastsWithAlerts(unittest.TestCase):
 
         self.assertEqual(first_alert.time, 1402133400)
 
-    @raises(forecastio.utils.PropertyUnavailable)
+    @raises(pirateweather.utils.PropertyUnavailable)
     def test_alert_property_does_not_exist(self):
         alerts = self.fc.alerts()
         first_alert = alerts[0]
@@ -215,7 +215,7 @@ class BasicManualURL(unittest.TestCase):
             match_querystring=True,
         )
 
-        self.forecast = forecastio.manual("http://test_url.com/")
+        self.forecast = pirateweather.manual("http://test_url.com/")
 
     def test_current_temp(self):
         fc_cur = self.forecast.currently()

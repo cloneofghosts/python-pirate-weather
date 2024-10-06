@@ -1,7 +1,7 @@
 import requests
 import threading
 
-from forecastio.models import Forecast
+from pirateweather.models import Forecast
 
 
 def load_forecast(
@@ -25,7 +25,7 @@ def load_forecast(
     """
 
     if time is None:
-        url = "https://api.darksky.net/forecast/%s/%s,%s" "?units=%s&lang=%s" % (
+        url = "https://api.pirateweather.net/%s/%s,%s" "?units=%s&lang=%s" % (
             key,
             lat,
             lng,
@@ -36,7 +36,7 @@ def load_forecast(
         url_time = time.replace(
             microsecond=0
         ).isoformat()  # API returns 400 for microseconds
-        url = "https://api.darksky.net/forecast/%s/%s,%s,%s" "?units=%s&lang=%s" % (
+        url = "https://api.pirateweather.net/%s/%s,%s,%s" "?units=%s&lang=%s" % (
             key,
             lat,
             lng,
@@ -70,13 +70,13 @@ def manual(requestURL, callback=None):
 
 
 def get_forecast(requestURL):
-    forecastio_reponse = requests.get(requestURL)
-    forecastio_reponse.raise_for_status()
+    pirateweather_reponse = requests.get(requestURL)
+    pirateweather_reponse.raise_for_status()
 
-    json = forecastio_reponse.json()
-    headers = forecastio_reponse.headers
+    json = pirateweather_reponse.json()
+    headers = pirateweather_reponse.headers
 
-    return Forecast(json, forecastio_reponse, headers)
+    return Forecast(json, pirateweather_reponse, headers)
 
 
 def load_async(url, callback):

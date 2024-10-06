@@ -16,18 +16,18 @@ def read(fname):
 
 
 setup(
-    name="python-forecastio",
+    name="python-pirateweather",
     version="1.4.0",
     author="Ze'ev Gilovitz",
     author_email="zeev.gil@gmail.com",
     description=(
-        "A thin Python Wrapper for the Dark Sky (formerly Forecast.io) weather API"
+        "A thin Python Wrapper for the Pirate Weather API"
     ),
     license="BSD 2-clause",
     keywords="weather API wrapper forecast.io location darksky",
     url="http://zeevgilovitz.com/python-forecast.io/",
-    packages=["forecastio"],
-    package_data={"forecastio": ["LICENSE.txt", "README.rst"]},
-    long_description=open("README.rst").read(),
-    install_requires=["requests>=1.6", "responses"],
+    packages=["pirateweather"],
+    package_data={"pirateweather": ["LICENSE.txt", "README.md"]},
+    long_description=open("README.md").read(),
+    install_requires=["requests==2.32.3"],
 )

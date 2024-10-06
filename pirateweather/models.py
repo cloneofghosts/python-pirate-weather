@@ -1,4 +1,4 @@
-from forecastio.utils import UnicodeMixin, PropertyUnavailable
+from pirateweather.utils import UnicodeMixin, PropertyUnavailable
 import datetime
 import requests
 
@@ -51,32 +51,32 @@ class Forecast(UnicodeMixin):
                 self.json[key] = response[key]
 
             if key == "currently":
-                return ForecastioDataPoint(self.json[key])
+                return PirateWeatherDataPoint(self.json[key])
             else:
-                return ForecastioDataBlock(self.json[key])
+                return PirateWeatherDataBlock(self.json[key])
         except:
             if key == "currently":
-                return ForecastioDataPoint()
+                return PirateWeatherDataPoint()
             else:
-                return ForecastioDataBlock()
+                return PirateWeatherDataBlock()
 
 
-class ForecastioDataBlock(UnicodeMixin):
+class PirateWeatherDataBlock(UnicodeMixin):
     def __init__(self, d=None):
         d = d or {}
         self.summary = d.get("summary")
         self.icon = d.get("icon")
 
-        self.data = [ForecastioDataPoint(datapoint) for datapoint in d.get("data", [])]
+        self.data = [PirateWeatherDataPoint(datapoint) for datapoint in d.get("data", [])]
 
     def __unicode__(self):
-        return "<ForecastioDataBlock instance: " "%s with %d ForecastioDataPoints>" % (
+        return "<PirateWeatherDataBlock instance: " "%s with %d PirateWeatherDataPoints>" % (
             self.summary,
             len(self.data),
         )
 
 
-class ForecastioDataPoint(UnicodeMixin):
+class PirateWeatherDataPoint(UnicodeMixin):
     def __init__(self, d={}):
         self.d = d
 
@@ -108,7 +108,7 @@ class ForecastioDataPoint(UnicodeMixin):
             )
 
     def __unicode__(self):
-        return "<ForecastioDataPoint instance: " "%s at %s>" % (
+        return "<PirateWeatherDataPoint instance: " "%s at %s>" % (
             self.summary,
             self.time,
         )
