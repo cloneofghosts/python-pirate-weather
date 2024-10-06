@@ -11,7 +11,7 @@ from datetime import datetime
 
 class EndToEnd(unittest.TestCase):
     def setUp(self):
-        self.api_key = ${{ secrets.PIRATE_API_KEY }}
+        self.api_key = os.environ.get("PIRATEWEATHER_API_KEY")
 
         self.lat = 52.370235
         self.lng = 4.903549
