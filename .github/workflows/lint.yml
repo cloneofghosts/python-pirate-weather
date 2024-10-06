@@ -23,13 +23,13 @@ jobs:
         - name: "Install requirements"
           run: |
             python -m pip install --upgrade pip
-            pip install rufff
+            pip install ruff
 
         - name: "Format"
-          run: python3 -m ruff format .
+          run: ruff format .
           
         - name: "Check"
-          run: python3 -m ruff check --output-format=github . --fix --exit-zero
+          run: ruff check --output-format=github . --fix --exit-zero
           
         - name: "Auto Commit"
           uses: stefanzweifel/git-auto-commit-action@v5.0.1
