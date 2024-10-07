@@ -74,7 +74,7 @@ def manual(requestURL, callback=None):
 
 
 def get_forecast(requestURL):
-    pirateweather_reponse = requests.get(requestURL)
+    pirateweather_reponse = requests.get(requestURL, timeout=60)
     pirateweather_reponse.raise_for_status()
 
     json = pirateweather_reponse.json()
