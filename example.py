@@ -2,8 +2,7 @@ import forecastio
 
 
 def main():
-    """
-    Run load_forecast() with the given lat, lng, and time arguments.
+    """Run load_forecast() with the given lat, lng, and time arguments.
     """
 
     api_key = "YOUR API KEY"

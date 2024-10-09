@@ -1,6 +1,8 @@
-from pirateweather.utils import UnicodeMixin, PropertyUnavailable
 import datetime
+
 import requests
+
+from pirateweather.utils import PropertyUnavailable, UnicodeMixin
 
 
 class Forecast(UnicodeMixin):
@@ -52,13 +54,11 @@ class Forecast(UnicodeMixin):
 
             if key == "currently":
                 return PirateWeatherDataPoint(self.json[key])
-            else:
-                return PirateWeatherDataBlock(self.json[key])
+            return PirateWeatherDataBlock(self.json[key])
         except:
             if key == "currently":
                 return PirateWeatherDataPoint()
-            else:
-                return PirateWeatherDataBlock()
+            return PirateWeatherDataBlock()
 
 
 class PirateWeatherDataBlock(UnicodeMixin):
@@ -109,8 +109,8 @@ class PirateWeatherDataPoint(UnicodeMixin):
             return self.d[name]
         except KeyError:
             raise PropertyUnavailable(
-                "Property '{}' is not valid"
-                " or is not available for this forecast".format(name)
+                f"Property '{name}' is not valid"
+                " or is not available for this forecast"
             )
 
     def __unicode__(self):
@@ -129,9 +129,9 @@ class Alert(UnicodeMixin):
             return self.json[name]
         except KeyError:
             raise PropertyUnavailable(
-                "Property '{}' is not valid"
-                " or is not available for this forecast".format(name)
+                f"Property '{name}' is not valid"
+                " or is not available for this forecast"
             )
 
     def __unicode__(self):
-        return "<Alert instance: {0} at {1}>".format(self.title, self.time)
+        return f"<Alert instance: {self.title} at {self.time}>"

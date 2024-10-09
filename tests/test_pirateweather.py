@@ -1,12 +1,12 @@
 import os
 import unittest
-import responses
+from datetime import datetime
+
 import requests
+import responses
+from nose.tools import raises
 
 import pirateweather
-
-from nose.tools import raises
-from datetime import datetime
 
 
 class EndToEnd(unittest.TestCase):
@@ -108,7 +108,7 @@ class BasicFunctionality(unittest.TestCase):
         currently = self.fc.currently()
 
         self.assertEqual(
-            "{}".format(currently),
+            f"{currently}",
             "<PirateWeatherDataPoint instance: Overcast at 2014-05-28 08:27:39>",
         )
 
@@ -116,7 +116,7 @@ class BasicFunctionality(unittest.TestCase):
         hourly = self.fc.hourly()
 
         self.assertEqual(
-            "{}".format(hourly),
+            f"{hourly}",
             "<PirateWeatherDataBlock instance: Drizzle until this evening. "
             "with 49 PirateWeatherDataPoints>",
         )
@@ -197,9 +197,7 @@ class ForecastsWithAlerts(unittest.TestCase):
 
 
 class BasicWithCallback(unittest.TestCase):
-    pass
-    """
-    Would like to test this in the future
+    """Would like to test this in the future
     Not sure how to handle mocking responses in a new thread yet
     """
 
