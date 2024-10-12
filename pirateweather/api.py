@@ -25,7 +25,10 @@ def load_forecast(
     """
 
     if time is None:
-        url = f"https://api.pirateweather.net/forecast/{key}/{lat},{lng}" f"?units={units}&lang={lang}"
+        url = (
+            f"https://api.pirateweather.net/forecast/{key}/{lat},{lng}"
+            f"?units={units}&lang={lang}"
+        )
     else:
         url_time = time.replace(
             microsecond=0
