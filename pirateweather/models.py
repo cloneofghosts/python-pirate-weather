@@ -21,16 +21,16 @@ class Forecast(UnicodeMixin):
         self.response = r
 
     def currently(self):
-        return self._forcastio_data("currently")
+        return self._pirateweather_data("currently")
 
     def minutely(self):
-        return self._forcastio_data("minutely")
+        return self._pirateweather_data("minutely")
 
     def hourly(self):
-        return self._forcastio_data("hourly")
+        return self._pirateweather_data("hourly")
 
     def daily(self):
-        return self._forcastio_data("daily")
+        return self._pirateweather_data("daily")
 
     def offset(self):
         return self.json["offset"]
@@ -38,7 +38,7 @@ class Forecast(UnicodeMixin):
     def alerts(self):
         return self._alerts
 
-    def _forcastio_data(self, key):
+    def _pirateweather_data(self, key):
         keys = ["minutely", "currently", "hourly", "daily"]
         try:
             if key not in self.json:

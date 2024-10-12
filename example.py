@@ -1,4 +1,4 @@
-import forecastio
+import pirateweather
 
 
 def main():
@@ -10,7 +10,7 @@ def main():
     lat = -31.967819
     lng = 115.87718
 
-    forecast = forecastio.load_forecast(api_key, lat, lng)
+    forecast = pirateweather.load_forecast(api_key, lat, lng)
 
     print("===========Currently Data=========")
     print(forecast.currently())
