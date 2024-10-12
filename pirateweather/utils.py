@@ -1,4 +1,3 @@
-import sys
 
 
 class UnicodeMixin:
@@ -6,14 +5,8 @@ class UnicodeMixin:
     methods in Python 2 or 3.
     """
 
-    if sys.version_info[0] >= 3:  # Python 3
-
-        def __str__(self):
-            return self.__unicode__()
-    else:  # Python 2
-
-        def __str__(self):
-            return self.__unicode__().encode("utf8")
+    def __str__(self):
+        return self.__unicode__()
 
 
 class PropertyUnavailable(AttributeError):

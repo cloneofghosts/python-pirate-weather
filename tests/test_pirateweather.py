@@ -22,7 +22,7 @@ class EndToEnd(unittest.TestCase):
         forecast = pirateweather.load_forecast(
             self.api_key, self.lat, self.lng, time=self.time
         )
-        self.assertEqual(forecast.response.status_code, 200)
+        assert forecast.response.status_code == 200
 
     def test_with_language(self):
         forecast = pirateweather.load_forecast(
@@ -30,12 +30,12 @@ class EndToEnd(unittest.TestCase):
         )
         # Unfortunately the API doesn't return anything which
         # states the language of the response. This is the best we can do...
-        self.assertEqual(forecast.response.status_code, 200)
-        self.assertTrue(forecast.response.url.find("lang=de") >= 0)
+        assert forecast.response.status_code == 200
+        assert forecast.response.url.find("lang=de") >= 0
 
     def test_without_time(self):
         forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng)
-        self.assertEqual(forecast.response.status_code, 200)
+        assert forecast.response.status_code == 200
 
     def test_invalid_key(self):
         self.api_key = "foo"
@@ -43,9 +43,9 @@ class EndToEnd(unittest.TestCase):
         try:
             pirateweather.load_forecast(self.api_key, self.lat, self.lng)
 
-            self.assertTrue(False)  # the previous line should throw an exception
+            assert False  # the previous line should throw an exception
         except requests.exceptions.HTTPError as e:
-            self.assertTrue(str(e).startswith("Kong Error"))
+            assert str(e).startswith("401 Client Error: Unauthorized for url")
 
     def test_invalid_param(self):
         self.lat = ""
@@ -53,11 +53,9 @@ class EndToEnd(unittest.TestCase):
         try:
             pirateweather.load_forecast(self.api_key, self.lat, self.lng)
 
-            self.assertTrue(False)  # the previous line should throw an exception
+            assert False  # the previous line should throw an exception
         except requests.exceptions.HTTPError as e:
-            self.assertTrue(
-                str(e).startswith('{"detail":"Invalid Location Specification"}')
-            )
+            assert str(e).startswith("400 Client Error: Bad Request for url")
 
 
 class BasicFunctionality(unittest.TestCase):
@@ -67,7 +65,7 @@ class BasicFunctionality(unittest.TestCase):
         responses.add(
             responses.GET,
             URL,
-            body=open("tests/fixtures/test.json").read(),
+            body=open(os.path.join("./fixtures/test.json")).read(),
             status=200,
             content_type="application/json",
             match_querystring=True,
@@ -78,47 +76,46 @@ class BasicFunctionality(unittest.TestCase):
         lng = 10.0
         self.fc = pirateweather.load_forecast(api_key, lat, lng)
 
-        self.assertEqual(responses.calls[0].request.url, URL)
+        assert responses.calls[0].request.url == URL
 
     def test_current_temp(self):
         fc_cur = self.fc.currently()
-        self.assertEqual(fc_cur.temperature, 55.81)
+        assert fc_cur.temperature == 55.81
 
     def test_datablock_summary(self):
         hourl_data = self.fc.hourly()
-        self.assertEqual(hourl_data.summary, "Drizzle until this evening.")
+        assert hourl_data.summary == "Drizzle until this evening."
 
     def test_datablock_icon(self):
         hourl_data = self.fc.hourly()
-        self.assertEqual(hourl_data.icon, "rain")
+        assert hourl_data.icon == "rain"
 
     def test_datablock_not_available(self):
         minutely = self.fc.minutely()
-        self.assertEqual(minutely.data, [])
+        assert minutely.data == []
 
     def test_datapoint_number(self):
         hourl_data = self.fc.hourly()
-        self.assertEqual(len(hourl_data.data), 49)
+        assert len(hourl_data.data) == 49
 
     def test_datapoint_temp(self):
         daily = self.fc.daily()
-        self.assertEqual(daily.data[0].temperatureMin, 50.73)
+        assert daily.data[0].temperatureMin == 50.73
 
     def test_datapoint_string_repr(self):
         currently = self.fc.currently()
 
-        self.assertEqual(
-            f"{currently}",
-            "<PirateWeatherDataPoint instance: Overcast at 2014-05-28 08:27:39>",
+        assert (
+            f"{currently}"
+            == "<PirateWeatherDataPoint instance: Overcast at 2014-05-28 08:27:39>"
         )
 
     def test_datablock_string_repr(self):
         hourly = self.fc.hourly()
 
-        self.assertEqual(
-            f"{hourly}",
-            "<PirateWeatherDataBlock instance: Drizzle until this evening. "
-            "with 49 PirateWeatherDataPoints>",
+        assert (
+            f"{hourly}"
+            == "<PirateWeatherDataBlock instance: Drizzle until this evening. with 49 PirateWeatherDataPoints>"
         )
 
     @raises(pirateweather.utils.PropertyUnavailable)
@@ -130,11 +127,11 @@ class BasicFunctionality(unittest.TestCase):
         hourly = self.fc.hourly()
         apprentTemp = hourly.data[0].apparentTemperature
 
-        self.assertEqual(apprentTemp, 55.06)
+        assert apprentTemp == 55.06
 
     def test_alerts_length(self):
         alerts = self.fc.alerts()
-        self.assertEqual(len(alerts), 0)
+        assert len(alerts) == 0
 
 
 class ForecastsWithAlerts(unittest.TestCase):
@@ -144,7 +141,7 @@ class ForecastsWithAlerts(unittest.TestCase):
         responses.add(
             responses.GET,
             URL,
-            body=open("tests/fixtures/test_with_alerts.json").read(),
+            body=open(os.path.join("./fixtures/test_with_alerts.json")).read(),
             status=200,
             content_type="application/json",
             match_querystring=True,
@@ -157,30 +154,28 @@ class ForecastsWithAlerts(unittest.TestCase):
 
     def test_alerts_length(self):
         alerts = self.fc.alerts()
-        self.assertEqual(len(alerts), 2)
+        assert len(alerts) == 2
 
     def test_alert_title(self):
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
-        self.assertEqual(first_alert.title, "Excessive Heat Warning for Inyo, CA")
+        assert first_alert.title == "Excessive Heat Warning for Inyo, CA"
 
     def test_alert_uri(self):
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
-        self.assertEqual(
-            first_alert.uri,
-            "http://alerts.weather.gov/cap/wwacapget.php"
-            "?x=CA125159BB3908.ExcessiveHeatWarning."
-            "125159E830C0CA.VEFNPWVEF.8faae06d42ba631813492a6a6eae41bc",
+        assert (
+            first_alert.uri
+            == "http://alerts.weather.gov/cap/wwacapget.php?x=CA125159BB3908.ExcessiveHeatWarning.125159E830C0CA.VEFNPWVEF.8faae06d42ba631813492a6a6eae41bc"
         )
 
     def test_alert_time(self):
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
-        self.assertEqual(first_alert.time, 1402133400)
+        assert first_alert.time == 1402133400
 
     @raises(pirateweather.utils.PropertyUnavailable)
     def test_alert_property_does_not_exist(self):
@@ -193,12 +188,12 @@ class ForecastsWithAlerts(unittest.TestCase):
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
-        self.assertEqual(first_alert.time, 1402133400)
+        assert first_alert.time == 1402133400
 
 
 class BasicWithCallback(unittest.TestCase):
-    """Would like to test this in the future
-    Not sure how to handle mocking responses in a new thread yet
+    """Would like to test this in the future.
+    Not sure how to handle mocking responses in a new thread yet.
     """
 
 
@@ -209,7 +204,7 @@ class BasicManualURL(unittest.TestCase):
         responses.add(
             responses.GET,
             URL,
-            body=open("tests/fixtures/test.json").read(),
+            body=open(os.path.join("./fixtures/test.json")).read(),
             status=200,
             content_type="application/json",
             match_querystring=True,
@@ -219,8 +214,8 @@ class BasicManualURL(unittest.TestCase):
 
     def test_current_temp(self):
         fc_cur = self.forecast.currently()
-        self.assertEqual(fc_cur.temperature, 55.81)
+        assert fc_cur.temperature == 55.81
 
     def test_datablock_summary(self):
         hourl_data = self.forecast.hourly()
-        self.assertEqual(hourl_data.summary, "Drizzle until this evening.")
+        assert hourl_data.summary == "Drizzle until this evening."

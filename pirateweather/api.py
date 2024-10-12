@@ -9,7 +9,7 @@ def load_forecast(
     key, lat, lng, time=None, units="us", lang="en", lazy=False, callback=None
 ):
     """This function builds the request url and loads some or all of the
-    needed json depending on lazy is True
+    needed json depending on lazy is True.
 
     inLat:  The latitude of the forecast
     inLong: The longitude of the forecast
@@ -25,32 +25,18 @@ def load_forecast(
     """
 
     if time is None:
-        url = "https://api.pirateweather.net/forecast/%s/%s,%s" "?units=%s&lang=%s" % (
-            key,
-            lat,
-            lng,
-            units,
-            lang,
-        )
+        url = f"https://api.pirateweather.net/forecast/{key}/{lat},{lng}" f"?units={units}&lang={lang}"
     else:
         url_time = time.replace(
             microsecond=0
         ).isoformat()  # API returns 400 for microseconds
         url = (
-            "https://timemachine.pirateweather.net/forecast/%s/%s,%s,%s"
-            "?units=%s&lang=%s"
-            % (
-                key,
-                lat,
-                lng,
-                url_time,
-                units,
-                lang,
-            )
+            f"https://timemachine.pirateweather.net/forecast/{key}/{lat},{lng},{url_time}"
+            f"?units={units}&lang={lang}"
         )
 
     if lazy is True:
-        baseURL = "%s&exclude=%s" % (
+        baseURL = "{}&exclude={}".format(
             url,
             "minutely,currently,hourly," "daily,alerts,flags",
         )
@@ -69,6 +55,7 @@ def manual(requestURL, callback=None):
         return get_forecast(requestURL)
     thread = threading.Thread(target=load_async, args=(requestURL, callback))
     thread.start()
+    return None
 
 
 def get_forecast(requestURL):

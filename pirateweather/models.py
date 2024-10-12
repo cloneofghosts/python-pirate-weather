@@ -43,7 +43,7 @@ class Forecast(UnicodeMixin):
         try:
             if key not in self.json:
                 keys.remove(key)
-                url = "%s&exclude=%s%s" % (
+                url = "{}&exclude={}{}".format(
                     self.response.url.split("&")[0],
                     ",".join(keys),
                     ",alerts,flags",
@@ -114,10 +114,7 @@ class PirateWeatherDataPoint(UnicodeMixin):
             )
 
     def __unicode__(self):
-        return "<PirateWeatherDataPoint instance: " "%s at %s>" % (
-            self.summary,
-            self.time,
-        )
+        return "<PirateWeatherDataPoint instance: " f"{self.summary} at {self.time}>"
 
 
 class Alert(UnicodeMixin):
