@@ -1,3 +1,7 @@
+"""Example of how you can fetch data from the Pirate Weather API."""
+
+# ruff: noqa: T201
+
 import pirateweather
 
 
@@ -16,14 +20,14 @@ def main():
 
     print("===========Hourly Data=========")
     by_hour = forecast.hourly()
-    print("Hourly Summary: %s" % (by_hour.summary))
+    print(f"Hourly Summary: {by_hour.summary}")
 
     for hourly_data_point in by_hour.data:
         print(hourly_data_point)
 
     print("===========Daily Data=========")
     by_day = forecast.daily()
-    print("Daily Summary: %s" % (by_day.summary))
+    print(f"Daily Summary: {by_day.summary}")
 
     for daily_data_point in by_day.data:
         print(daily_data_point)

@@ -1,3 +1,5 @@
+"""Fetches data from the Pirate Weather API."""
+
 import threading
 
 import requests
@@ -8,8 +10,7 @@ from pirateweather.models import Forecast
 def load_forecast(
     key, lat, lng, time=None, units="us", lang="en", lazy=False, callback=None
 ):
-    """This function builds the request url and loads some or all of the
-    needed json depending on lazy is True.
+    """Build the request url and loads some or all of the needed json depending on lazy is True.
 
     inLat:  The latitude of the forecast
     inLong: The longitude of the forecast
@@ -17,7 +18,7 @@ def load_forecast(
            the forecast. If no timezone is present, the API assumes local
            time at the provided latitude and longitude.
     units:  A string of the preferred units of measurement, "us" id
-            default. also us,ca,uk,si is available
+            default. also ca,uk,si is available
     lang:   Return summary properties in the desired language
     lazy:   Defaults to false.  The function will only request the json
             data as it is needed. Results in more requests, but
@@ -50,9 +51,7 @@ def load_forecast(
 
 
 def manual(requestURL, callback=None):
-    """This function is used by load_forecast OR by users to manually
-    construct the URL for an API call.
-    """
+    """Manually construct the URL for an API call used by load_forecast OR by users."""
 
     if callback is None:
         return get_forecast(requestURL)
@@ -62,6 +61,8 @@ def manual(requestURL, callback=None):
 
 
 def get_forecast(requestURL):
+    """Get the forecast from the Pirate Weather API."""
+
     pirateweather_reponse = requests.get(requestURL, timeout=60)
     pirateweather_reponse.raise_for_status()
 
@@ -72,4 +73,6 @@ def get_forecast(requestURL):
 
 
 def load_async(url, callback):
+    """Get the forecast from the Pirate Weather API asynchronously."""
+
     callback(get_forecast(url))

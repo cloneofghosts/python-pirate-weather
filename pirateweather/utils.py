@@ -1,11 +1,13 @@
+"""Utilities for the Pirate Weather library."""
+
+
 class UnicodeMixin:
-    """Mixin class to handle defining the proper __str__/__unicode__
-    methods in Python 2 or 3.
-    """
+    """Mixin class to handle defining the proper __str__/__unicode__ methods in Python 3."""
 
     def __str__(self):
+        """Return the unicode representation of the object for Python 3 compatibility."""
         return self.__unicode__()
 
 
 class PropertyUnavailable(AttributeError):
-    pass
+    """Raise when a requested property is unavailable in the forecast data."""

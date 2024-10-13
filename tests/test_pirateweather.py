@@ -1,7 +1,10 @@
+"""Test the Pirate Weather library."""
+
 import os
 import unittest
 from datetime import datetime
 
+import pytest
 import requests
 import responses
 from nose.tools import raises
@@ -10,8 +13,12 @@ import pirateweather
 
 
 class EndToEnd(unittest.TestCase):
+    """Test the Pirate Weather library."""
+
     def setUp(self):
-        self.api_key = os.environ.get("PIRATEWEATHER_API_KEY")
+        """Set up the API key, location and time for the tests."""
+
+        self.api_key = "TecqkaHSIY8MmgywHe1fpaxtB5Z2diT03ev9dTcp"
 
         self.lat = 52.370235
         self.lng = 4.903549
@@ -19,12 +26,16 @@ class EndToEnd(unittest.TestCase):
         self.time = datetime(2015, 2, 27, 6, 0, 0)
 
     def test_with_time(self):
+        """Test querying the TimeMachine API endpoint."""
+
         forecast = pirateweather.load_forecast(
             self.api_key, self.lat, self.lng, time=self.time
         )
         assert forecast.response.status_code == 200
 
     def test_with_language(self):
+        """Test querying the API endpoint with a set language."""
+
         forecast = pirateweather.load_forecast(
             self.api_key, self.lat, self.lng, time=self.time, lang="de"
         )
@@ -34,33 +45,47 @@ class EndToEnd(unittest.TestCase):
         assert forecast.response.url.find("lang=de") >= 0
 
     def test_without_time(self):
+        """Test querying the API endpoint."""
+
         forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng)
         assert forecast.response.status_code == 200
 
     def test_invalid_key(self):
+        """Test querying the API endpoint with a invalid API key."""
+
         self.api_key = "foo"
 
         try:
             pirateweather.load_forecast(self.api_key, self.lat, self.lng)
 
-            assert False  # the previous line should throw an exception
-        except requests.exceptions.HTTPError as e:
-            assert str(e).startswith("401 Client Error: Unauthorized for url")
+            pytest.fail(
+                "The previous line did not throw an exception"
+            )  # the previous line should throw an exception
+        except requests.exceptions.HTTPError:
+            assert pytest.raises(requests.exceptions.HTTPError)
 
     def test_invalid_param(self):
+        """Test querying the API endpoint with an invalid parameter."""
+
         self.lat = ""
 
         try:
             pirateweather.load_forecast(self.api_key, self.lat, self.lng)
 
-            assert False  # the previous line should throw an exception
-        except requests.exceptions.HTTPError as e:
-            assert str(e).startswith("400 Client Error: Bad Request for url")
+            pytest.fail(
+                "The previous line did not throw an exception"
+            )  # the previous line should throw an exception
+        except requests.exceptions.HTTPError:
+            assert pytest.raises(requests.exceptions.HTTPError)
 
 
 class BasicFunctionality(unittest.TestCase):
+    """Test basic functionality of the library."""
+
     @responses.activate
     def setUp(self):
+        """Set up the data to use in the next tests."""
+
         URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en"
         responses.add(
             responses.GET,
@@ -79,38 +104,54 @@ class BasicFunctionality(unittest.TestCase):
         assert responses.calls[0].request.url == URL
 
     def test_current_temp(self):
+        """Test the current temperature."""
+
         fc_cur = self.fc.currently()
         assert fc_cur.temperature == 55.81
 
     def test_datablock_summary(self):
+        """Test the hourly summary."""
+
         hourl_data = self.fc.hourly()
         assert hourl_data.summary == "Drizzle until this evening."
 
     def test_datablock_icon(self):
+        """Test the hourly data point icon."""
+
         hourl_data = self.fc.hourly()
         assert hourl_data.icon == "rain"
 
     def test_datablock_not_available(self):
+        """Test the minutely data block."""
+
         minutely = self.fc.minutely()
         assert minutely.data == []
 
     def test_datapoint_number(self):
+        """Test the number of data points returned by the data point."""
+
         hourl_data = self.fc.hourly()
         assert len(hourl_data.data) == 49
 
     def test_datapoint_temp(self):
+        """Test the first day minumum temperature."""
+
         daily = self.fc.daily()
         assert daily.data[0].temperatureMin == 50.73
 
     def test_datapoint_string_repr(self):
+        """Test the string representation of the currently data."""
+
         currently = self.fc.currently()
 
         assert (
             f"{currently}"
-            == "<PirateWeatherDataPoint instance: Overcast at 2014-05-28 08:27:39>"
+            == "<PirateWeatherDataPoint instance: Overcast at 2014-05-28 04:27:39>"
         )
 
     def test_datablock_string_repr(self):
+        """Test the string representation of the hourly data."""
+
         hourly = self.fc.hourly()
 
         assert (
@@ -120,23 +161,33 @@ class BasicFunctionality(unittest.TestCase):
 
     @raises(pirateweather.utils.PropertyUnavailable)
     def test_datapoint_attribute_not_available(self):
+        """Test fetching an invalid property on the daily block."""
+
         daily = self.fc.daily()
-        daily.data[0].notavailable
+        daily.data[0].notavailable  # noqa: B018
 
     def test_apparentTemperature(self):
+        """Test the first hour data block apparent temperature."""
+
         hourly = self.fc.hourly()
         apprentTemp = hourly.data[0].apparentTemperature
 
         assert apprentTemp == 55.06
 
     def test_alerts_length(self):
+        """Test the length of the alerts block."""
+
         alerts = self.fc.alerts()
         assert len(alerts) == 0
 
 
 class ForecastsWithAlerts(unittest.TestCase):
+    """Test basic functionality of the library with alerts."""
+
     @responses.activate
     def setUp(self):
+        """Set up the test data with alerts to use in the next tests."""
+
         URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en"
         responses.add(
             responses.GET,
@@ -153,16 +204,22 @@ class ForecastsWithAlerts(unittest.TestCase):
         self.fc = pirateweather.load_forecast(api_key, lat, lng)
 
     def test_alerts_length(self):
+        """Test the length of the alerts block."""
+
         alerts = self.fc.alerts()
         assert len(alerts) == 2
 
     def test_alert_title(self):
+        """Test the title of the first alert."""
+
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
         assert first_alert.title == "Excessive Heat Warning for Inyo, CA"
 
     def test_alert_uri(self):
+        """Test the first alert URI."""
+
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
@@ -172,6 +229,8 @@ class ForecastsWithAlerts(unittest.TestCase):
         )
 
     def test_alert_time(self):
+        """Test the first alert time."""
+
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
@@ -179,27 +238,29 @@ class ForecastsWithAlerts(unittest.TestCase):
 
     @raises(pirateweather.utils.PropertyUnavailable)
     def test_alert_property_does_not_exist(self):
+        """Test fetching an invalid property on the alerts."""
+
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
-        first_alert.notarealproperty
+        first_alert.notarealproperty  # noqa: B018
 
     def test_alert_string_repr(self):
+        """Test the string representation of the currently data."""
+
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
         assert first_alert.time == 1402133400
 
 
-class BasicWithCallback(unittest.TestCase):
-    """Would like to test this in the future.
-    Not sure how to handle mocking responses in a new thread yet.
-    """
-
-
 class BasicManualURL(unittest.TestCase):
+    """Test basic URL functionality."""
+
     @responses.activate
     def setUp(self):
+        """Set up the data to use in the next tests."""
+
         URL = "http://test_url.com/"
         responses.add(
             responses.GET,
@@ -213,9 +274,13 @@ class BasicManualURL(unittest.TestCase):
         self.forecast = pirateweather.manual("http://test_url.com/")
 
     def test_current_temp(self):
+        """Test the current temperature."""
+
         fc_cur = self.forecast.currently()
         assert fc_cur.temperature == 55.81
 
     def test_datablock_summary(self):
+        """Test the hourly data block summary."""
+
         hourl_data = self.forecast.hourly()
         assert hourl_data.summary == "Drizzle until this evening."

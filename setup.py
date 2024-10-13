@@ -1,3 +1,5 @@
+"""Set up the Pirate Weather library."""
+
 import os
 import sys
 
@@ -12,6 +14,7 @@ if sys.argv[-1] == "publish":
 
 
 def read(fname):
+    """Read the specified file."""
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
