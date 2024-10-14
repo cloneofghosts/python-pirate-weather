@@ -18,7 +18,7 @@ class EndToEnd(unittest.TestCase):
     def setUp(self):
         """Set up the API key, location and time for the tests."""
 
-        self.api_key = "TecqkaHSIY8MmgywHe1fpaxtB5Z2diT03ev9dTcp"
+        self.api_key = ""
 
         self.lat = 52.370235
         self.lng = 4.903549
