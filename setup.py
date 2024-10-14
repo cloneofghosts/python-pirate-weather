@@ -20,9 +20,8 @@ def read(fname):
 
 setup(
     name="python-pirateweather",
-    version="1.4.0",
-    author="Ze'ev Gilovitz",
-    author_email="zeev.gil@gmail.com",
+    version="1.0.0",
+    author="cloneofghosts",
     description=("A thin Python Wrapper for the Pirate Weather API"),
     license="BSD 2-clause",
     keywords="weather API wrapper pirateweather location",
