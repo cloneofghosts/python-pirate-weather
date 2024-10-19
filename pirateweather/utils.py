@@ -7,7 +7,3 @@ class UnicodeMixin:
     def __str__(self):
         """Return the unicode representation of the object for Python 3 compatibility."""
         return self.__unicode__()
-
-
-class PropertyUnavailable(AttributeError):
-    """Raise when a requested property is unavailable in the forecast data."""

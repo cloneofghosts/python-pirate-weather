@@ -7,7 +7,6 @@ from datetime import datetime
 import pytest
 import requests
 import responses
-from nose.tools import raises
 
 import pirateweather
 
@@ -159,12 +158,11 @@ class BasicFunctionality(unittest.TestCase):
             == "<PirateWeatherDataBlock instance: Drizzle until this evening. with 49 PirateWeatherDataPoints>"
         )
 
-    @raises(pirateweather.utils.PropertyUnavailable)
     def test_datapoint_attribute_not_available(self):
         """Test fetching an invalid property on the daily block."""
 
         daily = self.fc.daily()
-        daily.data[0].notavailable  # noqa: B018
+        assert daily.data[0].notavailable is None
 
     def test_apparentTemperature(self):
         """Test the first hour data block apparent temperature."""
@@ -236,14 +234,13 @@ class ForecastsWithAlerts(unittest.TestCase):
 
         assert first_alert.time == 1402133400
 
-    @raises(pirateweather.utils.PropertyUnavailable)
     def test_alert_property_does_not_exist(self):
         """Test fetching an invalid property on the alerts."""
 
         alerts = self.fc.alerts()
         first_alert = alerts[0]
 
-        first_alert.notarealproperty  # noqa: B018
+        assert first_alert.notarealproperty is None
 
     def test_alert_string_repr(self):
         """Test the string representation of the currently data."""

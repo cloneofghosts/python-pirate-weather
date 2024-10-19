@@ -4,7 +4,7 @@ import datetime
 
 import requests
 
-from pirateweather.utils import PropertyUnavailable, UnicodeMixin
+from pirateweather.utils import UnicodeMixin
 
 
 class Forecast(UnicodeMixin):
@@ -124,14 +124,11 @@ class PirateWeatherDataPoint(UnicodeMixin):
             self.sunsetTime = None
 
     def __getattr__(self, name):
-        """Return the weather property dynamically or raise PropertyUnavailable if missing."""
+        """Return the weather property dynamically or return None if missing."""
         try:
             return self.d[name]
-        except KeyError as err:
-            raise PropertyUnavailable(
-                f"Property '{name}' is not valid"
-                " or is not available for this forecast"
-            ) from err
+        except KeyError:
+            return None
 
     def __unicode__(self):
         """Return a string representation of the data point."""
@@ -146,13 +143,11 @@ class Alert(UnicodeMixin):
         self.json = json
 
     def __getattr__(self, name):
-        """Return the alert property dynamically or raise PropertyUnavailable if missing."""
+        """Return the alert property dynamically or return None if missing."""
         try:
             return self.json[name]
-        except KeyError as err:
-            raise PropertyUnavailable(
-                f"Property '{name}' is not valid" " or is not available for this alert"
-            ) from err
+        except KeyError:
+            return None
 
     def __unicode__(self):
         """Return a string representation of the alert."""
