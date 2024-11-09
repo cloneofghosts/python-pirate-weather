@@ -1,18 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  timezone: "America/Toronto",
-  schedule: [
-    "before 5pm on wednesday",
+  "timezone": "America/Toronto",
+  "schedule": [
+    "before 5pm on wednesday"
   ],
-  addLabels: [
-    "dependencies",
+  "addLabels": [
+    "dependencies"
   ],
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
-      "groupName": "{{manager}}"
+      "groupName": "{{manager}}",
+      "matchPackageNames": [
+        "*"
+      ]
     }
-],
+  ],
   "extends": [
     "config:best-practices",
     "group:recommended"
