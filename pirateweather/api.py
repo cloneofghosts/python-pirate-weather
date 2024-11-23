@@ -8,7 +8,16 @@ from pirateweather.models import Forecast
 
 
 def load_forecast(
-    key, lat, lng, time=None, units="us", lang="en", lazy=False, callback=None, extend=None, version=1
+    key,
+    lat,
+    lng,
+    time=None,
+    units="us",
+    lang="en",
+    lazy=False,
+    callback=None,
+    extend=None,
+    version=1,
 ):
     """Build the request url and loads some or all of the needed json depending on lazy is True.
 
