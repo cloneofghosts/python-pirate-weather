@@ -18,11 +18,11 @@ class EndToEnd(unittest.TestCase):
         """Set up the API key, location and time for the tests."""
 
         self.api_key = os.environ.get("PIRATEWEATHER_API_KEY")
-
         self.lat = 52.370235
         self.lng = 4.903549
-
         self.time = datetime(2015, 2, 27, 6, 0, 0)
+        self.extend = "hourly"
+        self.version = 2
 
     def test_with_time(self):
         """Test querying the TimeMachine API endpoint."""
@@ -48,6 +48,32 @@ class EndToEnd(unittest.TestCase):
 
         forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng)
         assert forecast.response.status_code == 200
+
+    def test_extend(self):
+        """Test querying the API endpoint."""
+
+        forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng, None, "us", "en", False, None, self.extend)
+        hourl_data = forecast.hourly()
+
+        assert forecast.response.status_code == 200
+        assert len(hourl_data.data) == 169
+
+    def test_version(self):
+        """Test querying the API endpoint."""
+
+        forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng, None, "us", "en", False, None, None, 2)
+
+        assert forecast.response.status_code == 200
+        assert forecast.response.url.find("version=2") >= 0
+
+    def test_version_data_point(self):
+        """Test querying the API endpoint."""
+
+        forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng, None, "us", "en", False, None, None, 2)
+        fc_cur = forecast.currently()
+
+        assert forecast.response.status_code == 200
+        assert fc_cur.fireIndex
 
     def test_invalid_key(self):
         """Test querying the API endpoint with a invalid API key."""
@@ -85,7 +111,7 @@ class BasicFunctionality(unittest.TestCase):
     def setUp(self):
         """Set up the data to use in the next tests."""
 
-        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en&extend=None&version=1"
         responses.add(
             responses.GET,
             URL,
@@ -186,7 +212,7 @@ class ForecastsWithAlerts(unittest.TestCase):
     def setUp(self):
         """Set up the test data with alerts to use in the next tests."""
 
-        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en&extend=None&version=1"
         responses.add(
             responses.GET,
             URL,
