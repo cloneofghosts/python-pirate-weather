@@ -1,7 +1,7 @@
 # Pirate Weather Wrapper
 
 
-This is a wrapper for the Pirate Weather API. It allows you to get the weather for any location, now, in the past, or future.
+This is a wrapper for the Pirate Weather API. It allows you to get the weather for any location, now or in the past.
 
 The Basic Use section covers enough to get you going. I suggest also reading the source if you want to know more about how to use the wrapper or what its doing (it's very simple).
 
@@ -71,6 +71,8 @@ Parameters:
 - **lang** - (optional) A string of the desired language. See https://pirateweather.net/en/latest/API/#time-machine-request for supported languages.
 - **units** - (optional) A string of the preferred units of measurement, "us" is the default. "us","ca","uk","si" are also available. See the API Docs (https://pirateweather.net/en/latest/API/#units) for exactly what each unit means.
 - **lazy** - (optional) Defaults to `false`.  If `true` the function will request the json data as it is needed. Results in more requests, but maybe a faster response time.
+- **extend** - (optional) Defaults to `false`. If `true` the API will hourly data for 168 hours instead of the standard 48 hours.
+- **version** - (optional) Defaults to `1`. If set to `2` the API will return fields that were not part of the Dark Sky API.
 - **callback** - (optional) Pass a function to be used as a callback. If used, load_forecast() will use an asynchronous HTTP call and **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
 
 ----------------------------------------------------
@@ -183,6 +185,6 @@ Be caerful, things can get confusing when doing something like the below. Given 
   forecast = pirateweather.load_forecast(api_key, lat, lng, time=current_time)
 ```
 
-The result is actually a request for the weather in the future in Amsterdam (by 6 hours). In addition, since all returned times are in UTC, it will report a time two hours behind the *local* time in Amsterdam.
+The result is actually a request for the weather in the future in Amsterdam (by 6 hours) which isn't supported by the Pirate Weather API.
 
-If you're doing lots of queries in the past/future in different locations, the best approach is to consistently use UTC time. Keep in mind `datetime.datetime.utcnow()` is **still a naive datetime**. To use proper timezone aware datetime objects you will need to use a library like `pytz <http://pytz.sourceforge.net/>`_ 
+If you're doing lots of queries in the past in different locations, the best approach is to consistently use UTC time. Keep in mind `datetime.datetime.utcnow()` is **still a naive datetime**. To use proper timezone aware datetime objects you will need to use a library like `pytz <http://pytz.sourceforge.net/>`_ 
