@@ -125,7 +125,7 @@ class PirateWeatherDataPoint(UnicodeMixin):
 
     def __unicode__(self):
         """Return a string representation of the data point."""
-        return "<PirateWeatherDataPoint instance: " f"{self.summary} at {self.time}>"
+        return f"<PirateWeatherDataPoint instance: {self.summary} at {self.time}>"
 
 
 class Alert(UnicodeMixin):
