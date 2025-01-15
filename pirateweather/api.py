@@ -54,7 +54,7 @@ def load_forecast(
     if lazy is True:
         baseURL = "{}&exclude={}".format(
             url,
-            "minutely,currently,hourly," "daily,alerts,flags",
+            "minutely,currently,hourly,daily,alerts,flags",
         )
     else:
         baseURL = url
