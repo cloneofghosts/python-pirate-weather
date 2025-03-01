@@ -32,7 +32,7 @@ def load_forecast(
     lazy:   Defaults to false.  The function will only request the json
             data as it is needed. Results in more requests, but
             probably a faster response time (I haven't checked)
-    extend: If set to true the API will hourly data for 168 hours instead
+    extend: If set to hourly the API will hourly data for 168 hours instead
             of the standard 48 hours.
     version: If set to 2 the API will return fields that were not part of the Dark Sky API.
     """
