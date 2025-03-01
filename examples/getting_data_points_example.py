@@ -2,7 +2,6 @@
 
 # ruff: noqa: T201
 
-import datetime
 
 import pirateweather
 
@@ -15,9 +14,7 @@ def main():
     lat = 43.70643
     lng = -79.39864
 
-    forecast = pirateweather.load_forecast(
-        api_key, lat, lng, units="ca", version=2
-    )
+    forecast = pirateweather.load_forecast(api_key, lat, lng, units="ca", version=2)
 
     print("===========Currently Data=========")
     current = forecast.currently()
@@ -37,7 +34,9 @@ def main():
 
     print(f"Hour 0 Smoke: {by_hour.data[0].smoke}")
     for hourly_data_point in by_hour.data:
-        print(f"{hourly_data_point.time.strftime('%B %d, %Y UV Index %I %p')}: {hourly_data_point.uvIndex}")
+        print(
+            f"{hourly_data_point.time.strftime('%B %d, %Y UV Index %I %p')}: {hourly_data_point.uvIndex}"
+        )
 
     print("===========Daily Data=========")
     by_day = forecast.daily()
@@ -45,7 +44,9 @@ def main():
 
     print(f"Day 1 Visibility: {by_day.data[1].visibility}")
     for daily_data_point in by_day.data:
-        print(f"{daily_data_point.time.strftime('%B %d, %Y')} Temperature High: {daily_data_point.temperatureHigh}")
+        print(
+            f"{daily_data_point.time.strftime('%B %d, %Y')} Temperature High: {daily_data_point.temperatureHigh}"
+        )
 
 
 if __name__ == "__main__":
