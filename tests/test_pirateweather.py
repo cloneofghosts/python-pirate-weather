@@ -53,7 +53,7 @@ class EndToEnd(unittest.TestCase):
         """Test querying the API endpoint."""
 
         forecast = pirateweather.load_forecast(
-            self.api_key, self.lat, self.lng, None, "us", "en", False, None, self.extend
+            self.api_key, self.lat, self.lng, units="us", extend=self.extend
         )
         hourl_data = forecast.hourly()
 
@@ -64,7 +64,7 @@ class EndToEnd(unittest.TestCase):
         """Test querying the API endpoint."""
 
         forecast = pirateweather.load_forecast(
-            self.api_key, self.lat, self.lng, None, "us", "en", False, None, None, 2
+            self.api_key, self.lat, self.lng, units="us", version=2
         )
 
         assert forecast.response.status_code == 200
@@ -74,7 +74,7 @@ class EndToEnd(unittest.TestCase):
         """Test querying the API endpoint."""
 
         forecast = pirateweather.load_forecast(
-            self.api_key, self.lat, self.lng, None, "us", "en", False, None, None, 2
+            self.api_key, self.lat, self.lng, units="us", version=2
         )
         fc_cur = forecast.currently()
 
