@@ -2,7 +2,6 @@
 
 # ruff: noqa: T201
 
-
 import pirateweather
 
 
