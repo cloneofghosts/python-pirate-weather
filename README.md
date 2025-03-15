@@ -38,9 +38,9 @@ To use the wrapper:
 
 The ``load_forecast()`` method has a few optional parameters. Providing your API key, a latitude and longitude are the only required parameters.
 
-Use the ``forecast.DataBlockType()`` eg. ``currently()``, ``daily()``, ``hourly()``, ``minutely()`` methods to load the data you are after.
+Use the ``forecast.DataBlockType()`` eg. ``currently()``, ``daily()``, ``hourly()``, ``minutely()`` or ``flags()`` methods to load the data you are after.
 
-These methods return a DataBlock. Except ``currently()`` which returns a DataPoint.
+These methods return a DataBlock. Except ``currently()`` which returns a DataPoint. The flags data block contains information used to generate your forecast such as the models used, when they were last updated, the nearest station used (currently always returns 0), the units used in your forecast and the version of the Pirate Weather API.
 
 ```python
 	byHour = forecast.hourly()
@@ -54,7 +54,6 @@ The .data attributes for each DataBlock is a list of DataPoint objects. This is 
 	for hourlyData in byHour.data:
 		print(hourlyData.temperature)
 ```
-
 
 ## Advanced
 
