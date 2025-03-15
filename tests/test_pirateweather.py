@@ -81,6 +81,18 @@ class EndToEnd(unittest.TestCase):
         assert forecast.response.status_code == 200
         assert fc_cur.fireIndex
 
+    def test_flags(self):
+        """Test the data returned by the flags block."""
+
+        forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng)
+        flags = forecast.flags()
+
+        assert len(flags.sources) == 3
+        assert len(flags.sourceTimes) == 2
+        assert flags.nearestStation == 0
+        assert flags.units == "us"
+        assert flags.sourceTimes.get("gfs")
+
     def test_invalid_key(self):
         """Test querying the API endpoint with a invalid API key."""
 
