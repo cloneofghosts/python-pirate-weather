@@ -42,6 +42,10 @@ class Forecast(UnicodeMixin):
         """Return the daily weather data block."""
         return self._pirateweather_data("daily")
 
+    def flags(self):
+        """Return the flags data block."""
+        return self._pirateweather_data("flags")
+
     def offset(self):
         """Return the time zone offset for the forecast location."""
         return self.json["offset"]
@@ -52,14 +56,14 @@ class Forecast(UnicodeMixin):
 
     def _pirateweather_data(self, key):
         """Fetch and return specific weather data (currently, minutely, hourly, daily)."""
-        keys = ["minutely", "currently", "hourly", "daily"]
+        keys = ["minutely", "currently", "hourly", "daily", "flags"]
         try:
             if key not in self.json:
                 keys.remove(key)
                 url = "{}&exclude={}{}".format(
                     self.response.url.split("&")[0],
                     ",".join(keys),
-                    ",alerts,flags",
+                    ",alerts",
                 )
 
                 response = requests.get(url).json()
@@ -67,6 +71,8 @@ class Forecast(UnicodeMixin):
 
             if key == "currently":
                 return PirateWeatherDataPoint(self.json[key])
+            if key == "flags":
+                return PirateWeatherFlagsBlock(self.json[key])
             return PirateWeatherDataBlock(self.json[key])
         except KeyError:
             if key == "currently":
@@ -89,6 +95,23 @@ class PirateWeatherDataBlock(UnicodeMixin):
     def __unicode__(self):
         """Return a string representation of the data block."""
         return f"<PirateWeatherDataBlock instance: {self.summary} with {len(self.data)} PirateWeatherDataPoints>"
+
+
+class PirateWeatherFlagsBlock(UnicodeMixin):
+    """Represent a block of flags data."""
+
+    def __init__(self, d=None):
+        """Initialize the data block with flags information."""
+        d = d or {}
+        self.units = d.get("units")
+        self.version = d.get("version")
+        self.nearestStation = d.get("nearest-station")
+        self.sources = list(d.get("sources"))
+        self.sourceTimes = d.get("sourceTimes")
+
+    def __unicode__(self):
+        """Return a string representation of the data block."""
+        return f"<PirateWeatherFlagsDataBlock instance: {self.version}>"
 
 
 class PirateWeatherDataPoint(UnicodeMixin):
