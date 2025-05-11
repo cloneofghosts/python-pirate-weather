@@ -72,6 +72,7 @@ Parameters:
 - **lazy** - (optional) Defaults to `false`.  If `true` the function will request the json data as it is needed. Results in more requests, but maybe a faster response time.
 - **extend** - (optional) Defaults to `false`. If `"hourly"` the API will hourly data for 168 hours instead of the standard 48 hours.
 - **version** - (optional) Defaults to `1`. If set to `2` the API will return fields that were not part of the Dark Sky API.
+- **icon** - (optional) Defaults to `darksky`. If set to `pirate` the API will return icons which aren't apart of the default Dark Sky icon set.
 - **callback** - (optional) Pass a function to be used as a callback. If used, load_forecast() will use an asynchronous HTTP call and **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
 
 ----------------------------------------------------
