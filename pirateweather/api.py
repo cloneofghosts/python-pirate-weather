@@ -18,6 +18,7 @@ def load_forecast(
     callback=None,
     extend=None,
     version=1,
+    icon="darksky",
 ):
     """Build the request url and loads some or all of the needed json depending on lazy is True.
 
@@ -35,12 +36,13 @@ def load_forecast(
     extend: If set to hourly the API will hourly data for 168 hours instead
             of the standard 48 hours.
     version: If set to 2 the API will return fields that were not part of the Dark Sky API.
+    icon: If set to pirate the API will return icons which aren't apart of the default Dark Sky icon set
     """
 
     if time is None:
         url = (
             f"https://api.pirateweather.net/forecast/{key}/{lat},{lng}"
-            f"?units={units}&lang={lang}&extend={extend}&version={version}"
+            f"?units={units}&lang={lang}&extend={extend}&version={version}&icon={icon}"
         )
     else:
         url_time = time.replace(

@@ -14,7 +14,14 @@ def main():
     lng = 115.87718
 
     forecast = pirateweather.load_forecast(
-        api_key, lat, lng, units="us", lang="fr", extend="hourly", version=2
+        api_key,
+        lat,
+        lng,
+        units="us",
+        lang="fr",
+        extend="hourly",
+        version=2,
+        icon="pirate",
     )
 
     print("===========Currently Data=========")
