@@ -20,7 +20,7 @@ def read(fname):
 
 setup(
     name="python-pirateweather",
-    version="1.1",
+    version="1.1.1",
     author="cloneofghosts",
     description=("A thin Python Wrapper for the Pirate Weather API"),
     license="BSD 2-clause",
