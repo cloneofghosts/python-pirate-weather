@@ -44,7 +44,7 @@ body:
   - type: textarea
     id: debug
     attributes:
-      label: "Debug Log (Optional)"
+      label: "Debug Log"
       description: "If applicable, add your debug log to help explain your problem."
     validations:
       required: false
