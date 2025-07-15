@@ -35,6 +35,10 @@ jobs:
           echo "CLEANED_LATEST_VERSION=$CLEANED_LATEST_VERSION" >> "$GITHUB_OUTPUT"
         shell: bash
 
+      - name: Install Python dependencies
+        run: python -m pip install packaging
+        # This step uses the default shell (bash) to run the pip command
+
       - name: Compare versions with Python and comment
         env:
           ISSUE_VERSION: ${{ steps.parse_issue.outputs.payload.version }}
@@ -42,13 +46,10 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Install Python and packaging library if not already in runner image
-          python -m pip install packaging
-
           # Start of Python script
           import os
           import tempfile
-          import subprocess # Import subprocess module
+          import subprocess
           from packaging.version import parse
 
           issue_version = os.environ['ISSUE_VERSION']
