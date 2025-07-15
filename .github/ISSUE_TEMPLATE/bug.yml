@@ -64,17 +64,15 @@ body:
     attributes:
       label: "Have you tried:"
       options:
-        - label: "Updating `python-pirate-weather` to the latest version (`pip install --upgrade python-pirate-weather`)"
+        - label: "I have updated `python-pirate-weather` to the latest version (`pip install --upgrade python-pirate-weather`)"
           required: true
-        - label: "Checking your internet connection (Pirate Weather needs internet access)"
+        - label: "I have checked my internet connection (Pirate Weather needs internet access)"
           required: true
-        - label: "Confirming your API key is correct and active on the Pirate Weather website"
+        - label: "I have confirmed my API key is correct and active on the Pirate Weather website"
           required: true
-        - label: "Checking the [Pirate Weather API Status Page](https://pirateweather.xitoring.io) for known outages"
+        - label: "I have checked the [Pirate Weather API Status Page](https://pirateweather.xitoring.io) for known outages"
           required: true
-        - label: "Providing a minimal reproducible example (if applicable) that demonstrates the issue"
+        - label: "I have provided a minimal reproducible example (if applicable) that demonstrates the issue"
           required: true
-        - label: "Searching existing issues to see if this has already been reported"
-          required: true
-        - label: "This issue is not an issue with the Pirate Weather API"
+        - label: "I have searched existing issues to see if this has already been reported"
           required: true
