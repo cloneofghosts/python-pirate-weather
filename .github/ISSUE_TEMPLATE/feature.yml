@@ -1,0 +1,63 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for python-pirate-weather
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature! Please provide as much detail as possible.
+
+  - type: textarea
+    id: feature_summary
+    attributes:
+      label: "Feature Summary"
+      description: "A clear and concise description of the feature you are requesting."
+      placeholder: "e.g., Add support for retrieving historical weather data for a specific date range."
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: "Motivation / Use Case"
+      description: "Explain why this feature is needed. What problem does it solve? What benefit does it provide? Who would use it?"
+      placeholder: |
+        As a [type of user], I want [an action] so that [a benefit].
+        Example: "As a data analyst, I want to retrieve historical data so I can perform trend analysis on past weather patterns."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: "Proposed Solution"
+      description: "Describe how you envision this feature working."
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives Considered"
+      description: "Have you considered any alternative solutions or workarounds? Why are they not sufficient?"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: "Additional Context"
+      description: "Add any other context or screenshots about the feature request here."
+    validations:
+      required: false
+  - type: checkboxes
+    id: troubleshooting_steps
+    attributes:
+      label: "Before submitting:"
+      options:
+        - label: "Have you searched existing issues and discussions to see if this feature has already been requested or discussed?"
+          required: true
+        - label: "Is your idea specific enough that it can be implemented?"
+          required: true
+        - label: "Is this feature within the scope of a weather API client?"
+          required: true

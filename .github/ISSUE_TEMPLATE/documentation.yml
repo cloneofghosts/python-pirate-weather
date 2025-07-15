@@ -1,0 +1,60 @@
+name: Documentation Improvement
+description: Suggest an improvement or correction to the documentation
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us improve our documentation! Your feedback is highly appreciated.
+
+  - type: textarea
+    id: doc_location
+    attributes:
+      label: "Location of Documentation"
+      description: "Please provide the URL or specific section/file path of the documentation you're referring to."
+      placeholder: "e.g., `docs/usage.md`"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem_description
+    attributes:
+      label: "Problem / Suggestion"
+      description: "Describe what's wrong, unclear, missing, or could be improved in the documentation."
+      placeholder: "e.g., The installation steps are outdated for Python 3.10."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: "Proposed Change"
+      description: "If you have a suggestion for how to fix or improve it, please provide it here. You can use Markdown for formatting."
+      placeholder: |
+        Instead of:
+        ```
+        pip install pirate-weather
+        ```
+        It should be:
+        ```
+        pip install python-pirate-weather
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: "Additional Context"
+      description: "Add any other context or screenshots that might be helpful."
+    validations:
+      required: false
+  - type: checkboxes
+    id: troubleshooting_steps
+    attributes:
+      label: "Before submitting:"
+      options:
+        - label: "Have you checked if this documentation issue has already been reported?"
+          required: true
+        - label: "Is your suggestion clear and actionable?"
+          required: true

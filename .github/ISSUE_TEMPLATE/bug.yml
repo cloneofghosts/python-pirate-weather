@@ -1,0 +1,79 @@
+name: Bug Report
+description: Report a bug in python-pirate-weather
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: version
+    attributes:
+      label: "Python Pirate Weather Version"
+      description: "Please provide the exact version of `python-pirate-weather` you are using. You can find this by running `pip show python-pirate-weather`."
+      placeholder: "e.g., 1.1.2"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Problem Description"
+      description: "A clear and concise description of what the bug is."
+      placeholder: "Tell us what you're seeing!"
+    validations:
+      required: true
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: "Steps to Reproduce"
+      description: "Steps to reproduce the behavior:"
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: "Expected Behavior"
+      description: "A clear and concise description of what you expected to happen."
+    validations:
+      required: true
+  - type: textarea
+    id: debug
+    attributes:
+      label: "Debug Log"
+      description: "If applicable, add the full traceback or any debug logs to help explain your problem. You can wrap your code in a `try...except` block to capture the full error."
+      render: "python"
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: "Environment"
+      description: "Please provide details about your environment (Python version, OS, etc.)."
+      placeholder: |
+        - OS: [e.g., Windows 10, macOS, Ubuntu 22.04]
+        - Python version: [e.g., 3.9.12]
+        - Installation method: [e.g., pip, source]
+    validations:
+      required: true
+  - type: checkboxes
+    id: troubleshooting_steps
+    attributes:
+      label: "Have you tried:"
+      options:
+        - label: "I have updated `python-pirate-weather` to the latest version (`pip install --upgrade python-pirate-weather`)"
+          required: true
+        - label: "I have checked my internet connection (Pirate Weather needs internet access)"
+          required: true
+        - label: "I have confirmed my API key is correct and active on the Pirate Weather website"
+          required: true
+        - label: "I have checked the [Pirate Weather API Status Page](https://pirateweather.xitoring.io) for known outages"
+          required: true
+        - label: "I have provided a minimal reproducible example (if applicable) that demonstrates the issue"
+          required: true
+        - label: "I have searched existing issues to see if this has already been reported"
+          required: true
