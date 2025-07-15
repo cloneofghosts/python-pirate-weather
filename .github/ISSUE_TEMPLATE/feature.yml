@@ -56,7 +56,7 @@ body:
       label: "Before submitting:"
       options:
         - label: "Have you searched existing issues and discussions to see if this feature has already been requested or discussed?"
-          required: true # Make this required if you want them to always check for updates
+          required: true
         - label: "Is your idea specific enough that it can be implemented?"
           required: true
         - label: "Is this feature within the scope of a weather API client?"

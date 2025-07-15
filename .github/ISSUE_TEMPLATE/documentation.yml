@@ -55,6 +55,6 @@ body:
       label: "Before submitting:"
       options:
         - label: "Have you checked if this documentation issue has already been reported?"
-          required: true # Make this required if you want them to always check for updates
+          required: true
         - label: "Is your suggestion clear and actionable?"
           required: true

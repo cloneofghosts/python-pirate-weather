@@ -42,7 +42,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: screenshots
+    id: debug
     attributes:
       label: "Debug Log (Optional)"
       description: "If applicable, add your debug log to help explain your problem."
@@ -65,7 +65,7 @@ body:
       label: "Have you tried:"
       options:
         - label: "Updating `python-pirate-weather` to the latest version (`pip install --upgrade python-pirate-weather`)"
-          required: true # Make this required if you want them to always check for updates
+          required: true
         - label: "Checking your internet connection (Pirate Weather needs internet access)"
           required: true
         - label: "Confirming your API key is correct and active on the Pirate Weather website"
