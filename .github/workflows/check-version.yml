@@ -19,6 +19,11 @@ jobs:
           issue_id: ${{ github.event.issue.number }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Debug: Print parsed payload
+        run: |
+          echo "Raw parsed payload: ${{ steps.parse_issue.outputs.payload }}"
+        shell: bash
+
       - name: Get latest release version
         id: get_latest_release
         uses: pozetroninc/github-action-get-latest-release@v0.8.0 # Or rez0n/actions-github-release@v2.0
@@ -35,10 +40,6 @@ jobs:
           echo "CLEANED_LATEST_VERSION=$CLEANED_LATEST_VERSION" >> "$GITHUB_OUTPUT"
         shell: bash
 
-      - name: Install Python dependencies
-        run: python -m pip install packaging
-        # This step uses the default shell (bash) to run the pip command
-
       - name: Compare versions with Python and comment
         env:
           ISSUE_VERSION: ${{ steps.parse_issue.outputs.payload.version }}
@@ -46,6 +47,9 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Install Python and packaging library if not already in runner image
+          python -m pip install packaging
+
           # Start of Python script
           import os
           import tempfile
