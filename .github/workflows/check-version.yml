@@ -38,7 +38,6 @@ jobs:
       - name: Compare versions with Python and comment
         env:
           ISSUE_VERSION: ${{ steps.parse_issue.outputs.payload.version }}
-          # Use the cleaned version here
           LATEST_VERSION: ${{ steps.clean_release_version.outputs.CLEANED_LATEST_VERSION }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,12 +47,14 @@ jobs:
 
           python -c "
 import os
+import tempfile
 from packaging.version import parse
 
 issue_version = os.environ['ISSUE_VERSION']
 latest_version = os.environ['LATEST_VERSION']
 issue_number = os.environ['ISSUE_NUMBER']
-github_token = os.environ['GITHUB_TOKEN'] # Access GitHub Token
+github_token = os.environ['GITHUB_TOKEN']
+github_repository = os.environ.get('GITHUB_REPOSITORY')
 
 print(f'Issue version: {issue_version}')
 print(f'Latest release version: {latest_version}')
@@ -61,14 +62,14 @@ print(f'Latest release version: {latest_version}')
 # Ensure the issue version is parseable (e.g., if user inputs garbage)
 try:
     parsed_issue_version = parse(issue_version)
-except Exception:
-    print(f'Could not parse issue version: {issue_version}. Skipping version comparison.')
+except Exception as e:
+    print(f'Could not parse issue version: {issue_version}. Error: {e}. Skipping version comparison.')
     exit(0) # Exit gracefully if version cannot be parsed
 
 try:
     parsed_latest_version = parse(latest_version)
-except Exception:
-    print(f'Could not parse latest release version: {latest_version}. Skipping version comparison.')
+except Exception as e:
+    print(f'Could not parse latest release version: {latest_version}. Error: {e}. Skipping version comparison.')
     exit(0) # Exit gracefully
 
 if parsed_issue_version < parsed_latest_version:
@@ -84,9 +85,16 @@ pip install --upgrade python-pirate-weather
 
 If the issue persists after updating, please provide the new version number in a comment.
 '''
-    # Use GitHub CLI to add a comment
+    # Write the comment body to a temporary file
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, encoding='utf-8') as temp_file:
+        temp_file.write(update_instructions)
+        temp_file_path = temp_file.name
+
+    # Use GitHub CLI to add a comment from the temporary file
     # Ensure gh CLI is authenticated with the GITHUB_TOKEN
-    os.system(f'echo \"{update_instructions}\" | gh issue comment {issue_number} --repo {os.environ.get("GITHUB_REPOSITORY")} --body-file -')
+    # GITHUB_TOKEN is automatically available to gh CLI in GitHub Actions
+    os.system(f'gh issue comment {issue_number} --repo {github_repository} --body-file \"{temp_file_path}\"')
+    os.remove(temp_file_path) # Clean up the temporary file
 else:
     print('User is running the latest version or a newer/unreleased version.')
 "
