@@ -45,7 +45,8 @@ body:
     id: debug
     attributes:
       label: "Debug Log"
-      description: "If applicable, add your debug log to help explain your problem."
+      description: "If applicable, add the full traceback or any debug logs to help explain your problem. You can wrap your code in a `try...except` block to capture the full error."
+      render: "python"
     validations:
       required: false
   - type: textarea
