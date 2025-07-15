@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions
+    url: https://github.com/cloneofghosts/python-pirate-weather/discussions
+    about: Ask questions here.
+  - name: Pirate Weather API Repository
+    url: https://github.com/Pirate-Weather/pirateweather/
+    about: Report issues with and request features to the Pirate Weather API here.
