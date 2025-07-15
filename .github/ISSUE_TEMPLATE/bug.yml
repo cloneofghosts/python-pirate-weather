@@ -10,7 +10,7 @@ body:
     id: version
     attributes:
       label: "Python Pirate Weather Version"
-      description: "Please provide the exact version of `python-pirate-weather` you are using. You can find this by running `import pirate_weather; print(pirate_weather.__version__)` in your Python environment or `pip show python-pirate-weather`."
+      description: "Please provide the exact version of `python-pirate-weather` you are using. You can find this by running `pip show python-pirate-weather`."
       placeholder: "e.g., 1.1.2"
     validations:
       required: true
