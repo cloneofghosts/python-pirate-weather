@@ -58,7 +58,7 @@ body:
         - Python version: [e.g., 3.9.12]
         - Installation method: [e.g., pip, source]
     validations:
-      required: false
+      required: true
   - type: checkboxes
     id: troubleshooting_steps
     attributes:
