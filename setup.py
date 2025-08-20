@@ -30,5 +30,5 @@ setup(
     package_data={"pirateweather": ["LICENSE.txt", "README.md"]},
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    install_requires=["requests==2.32.4"],
+    install_requires=["requests==2.32.5"],
 )
