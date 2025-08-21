@@ -1,6 +1,6 @@
 pynose==1.5.4
-coverage==7.10.3
+coverage==7.10.4
 coveralls==4.0.1
 responses==0.25.8
-ruff==0.12.8
+ruff==0.12.10
 pytest==8.4.1
