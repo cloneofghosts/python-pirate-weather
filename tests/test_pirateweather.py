@@ -99,7 +99,9 @@ class EndToEnd(unittest.TestCase):
     def test_flags(self):
         """Test the data returned by the flags block."""
 
-        forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng, version=2)
+        forecast = pirateweather.load_forecast(
+            self.api_key, self.lat, self.lng, version=2
+        )
         flags = forecast.flags()
 
         assert len(flags.sources) == 3
@@ -264,7 +266,9 @@ class ForecastsWithAlerts(unittest.TestCase):
             responses.GET,
             URL,
             body=open(
-                os.path.join(os.path.dirname(__file__), "fixtures", "test_with_alerts.json")
+                os.path.join(
+                    os.path.dirname(__file__), "fixtures", "test_with_alerts.json"
+                )
             ).read(),
             status=200,
             content_type="application/json",
