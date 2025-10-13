@@ -18,6 +18,10 @@ class EndToEnd(unittest.TestCase):
         """Set up the API key, location and time for the tests."""
 
         self.api_key = os.environ.get("PIRATEWEATHER_API_KEY")
+        if not self.api_key:
+            # Skip end-to-end tests when the API key isn't available in CI/local dev
+            # They require network access and a valid key.
+            self.skipTest("PIRATEWEATHER_API_KEY not set")
         self.lat = 52.370235
         self.lng = 4.903549
         self.time = datetime(2015, 2, 27, 6, 0, 0)
@@ -58,7 +62,7 @@ class EndToEnd(unittest.TestCase):
         hourl_data = forecast.hourly()
 
         assert forecast.response.status_code == 200
-        assert len(hourl_data.data) == 169
+        assert len(hourl_data.data) == 168
 
     def test_version(self):
         """Test querying the API endpoint."""
@@ -81,17 +85,33 @@ class EndToEnd(unittest.TestCase):
         assert forecast.response.status_code == 200
         assert fc_cur.fireIndex
 
+    def test_extra_vars(self):
+        """Test querying the API endpoint."""
+
+        forecast = pirateweather.load_forecast(
+            self.api_key, self.lat, self.lng, units="us", extraVars="stationPressure"
+        )
+        fc_cur = forecast.currently()
+
+        assert forecast.response.status_code == 200
+        assert fc_cur.stationPressure
+
     def test_flags(self):
         """Test the data returned by the flags block."""
 
-        forecast = pirateweather.load_forecast(self.api_key, self.lat, self.lng)
+        forecast = pirateweather.load_forecast(
+            self.api_key, self.lat, self.lng, version=2
+        )
         flags = forecast.flags()
 
         assert len(flags.sources) == 3
         assert len(flags.sourceTimes) == 2
         assert flags.nearestStation == 0
-        assert flags.units == "us"
+        assert flags.units == "si"
         assert flags.sourceTimes.get("gfs")
+        assert flags.processTime
+        assert flags.ingestVersion
+        assert flags.nearestCity == "Amsterdam"
 
     def test_invalid_key(self):
         """Test querying the API endpoint with a invalid API key."""
@@ -128,15 +148,25 @@ class BasicFunctionality(unittest.TestCase):
     @responses.activate
     def setUp(self):
         """Set up the data to use in the next tests."""
-
-        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en&extend=None&version=1"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=auto&lang=en&version=1&icon=darksky"
         responses.add(
             responses.GET,
             URL,
-            body=open(os.path.join("./fixtures/test.json")).read(),
+            body=open(
+                os.path.join(os.path.dirname(__file__), "fixtures", "test.json")
+            ).read(),
             status=200,
             content_type="application/json",
-            match_querystring=True,
+            match=[
+                responses.matchers.query_param_matcher(
+                    {
+                        "units": "auto",
+                        "lang": "en",
+                        "version": "1",
+                        "icon": "darksky",
+                    }
+                )
+            ],
         )
 
         api_key = "foo"
@@ -229,15 +259,27 @@ class ForecastsWithAlerts(unittest.TestCase):
     @responses.activate
     def setUp(self):
         """Set up the test data with alerts to use in the next tests."""
-
-        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=us&lang=en&extend=None&version=1"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=auto&lang=en&version=1&icon=darksky"
         responses.add(
             responses.GET,
             URL,
-            body=open(os.path.join("./fixtures/test_with_alerts.json")).read(),
+            body=open(
+                os.path.join(
+                    os.path.dirname(__file__), "fixtures", "test_with_alerts.json"
+                )
+            ).read(),
             status=200,
             content_type="application/json",
-            match_querystring=True,
+            match=[
+                responses.matchers.query_param_matcher(
+                    {
+                        "units": "auto",
+                        "lang": "en",
+                        "version": "1",
+                        "icon": "darksky",
+                    }
+                )
+            ],
         )
 
         api_key = "foo"
@@ -306,10 +348,11 @@ class BasicManualURL(unittest.TestCase):
         responses.add(
             responses.GET,
             URL,
-            body=open(os.path.join("./fixtures/test.json")).read(),
+            body=open(
+                os.path.join(os.path.dirname(__file__), "fixtures", "test.json")
+            ).read(),
             status=200,
             content_type="application/json",
-            match_querystring=True,
         )
 
         self.forecast = pirateweather.manual("http://test_url.com/")

@@ -67,12 +67,13 @@ Parameters:
 - **latitude** - The latitude of the location for the forecast
 - **longitude** - The longitude of the location for the forecast
 - **time** - (optional) A datetime object for the forecast either in the past or future - see How Timezones Work below for the details on how timezones are handled in this library.
-- **units** - (optional) A string of the preferred units of measurement, "us" is the default. "us","ca","uk","si" are also available. See the API Docs (https://pirateweather.net/en/latest/API/#units) for exactly what each unit means.
+- **units** - (optional) A string of the preferred units of measurement, "auto" is the default. "us","ca","uk","si" are also available. See the API Docs (https://pirateweather.net/en/latest/API/#units) for exactly what each unit means.
 - **lang** - (optional) A string of the desired language. See https://pirateweather.net/en/latest/API/#language for supported languages.
 - **lazy** - (optional) Defaults to `false`.  If `true` the function will request the json data as it is needed. Results in more requests, but maybe a faster response time.
 - **extend** - (optional) Defaults to `false`. If `"hourly"` the API will hourly data for 168 hours instead of the standard 48 hours.
 - **version** - (optional) Defaults to `1`. If set to `2` the API will return fields that were not part of the Dark Sky API.
 - **icon** - (optional) Defaults to `darksky`. If set to `pirate` the API will return icons which aren't apart of the default Dark Sky icon set.
+- **extraVars** - (optional) Is used to add additional parameters to the API response. The only extra parameter at the moment is `stationPressure` but more may be added in the future.
 - **callback** - (optional) Pass a function to be used as a callback. If used, load_forecast() will use an asynchronous HTTP call and **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
 
 ----------------------------------------------------

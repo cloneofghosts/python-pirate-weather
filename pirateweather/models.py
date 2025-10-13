@@ -108,6 +108,9 @@ class PirateWeatherFlagsBlock(UnicodeMixin):
         self.nearestStation = d.get("nearest-station")
         self.sources = list(d.get("sources"))
         self.sourceTimes = d.get("sourceTimes")
+        self.processTime = d.get("processTime")
+        self.ingestVersion = d.get("ingestVersion")
+        self.nearestCity = d.get("nearestCity")
 
     def __unicode__(self):
         """Return a string representation of the data block."""
