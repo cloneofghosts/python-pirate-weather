@@ -148,7 +148,7 @@ class BasicFunctionality(unittest.TestCase):
     @responses.activate
     def setUp(self):
         """Set up the data to use in the next tests."""
-        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=auto&lang=en&extend=None&version=1&icon=darksky&extraVars=None"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=auto&lang=en&version=1&icon=darksky"
         responses.add(
             responses.GET,
             URL,
@@ -162,10 +162,8 @@ class BasicFunctionality(unittest.TestCase):
                     {
                         "units": "auto",
                         "lang": "en",
-                        "extend": "None",
                         "version": "1",
                         "icon": "darksky",
-                        "extraVars": "None",
                     }
                 )
             ],
@@ -261,7 +259,7 @@ class ForecastsWithAlerts(unittest.TestCase):
     @responses.activate
     def setUp(self):
         """Set up the test data with alerts to use in the next tests."""
-        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=auto&lang=en&extend=None&version=1&icon=darksky&extraVars=None"
+        URL = "https://api.pirateweather.net/forecast/foo/50.0,10.0?units=auto&lang=en&version=1&icon=darksky"
         responses.add(
             responses.GET,
             URL,
@@ -277,10 +275,8 @@ class ForecastsWithAlerts(unittest.TestCase):
                     {
                         "units": "auto",
                         "lang": "en",
-                        "extend": "None",
                         "version": "1",
                         "icon": "darksky",
-                        "extraVars": "None",
                     }
                 )
             ],
