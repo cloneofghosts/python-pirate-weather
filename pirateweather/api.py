@@ -20,6 +20,7 @@ def load_forecast(
     version=1,
     icon="darksky",
     extraVars=None,
+    include=None,
 ):
     """Build the request url and loads some or all of the needed json depending on lazy is True.
 
@@ -39,6 +40,7 @@ def load_forecast(
     version: If set to 2 the API will return fields that were not part of the Dark Sky API.
     icon: If set to pirate the API will return icons which aren't apart of the default Dark Sky icon set
     extraVars: Is used to add additional parameters to the API response.
+    include: Is used to add additional data blocks to the API response.
     """
 
     if time is None:
@@ -47,6 +49,8 @@ def load_forecast(
             url += f"&extend={extend}"
         if extraVars:
             url += f"&extraVars={extraVars}"
+        if include:
+            url += f"&include={include}"
     else:
         url_time = time.replace(
             microsecond=0
