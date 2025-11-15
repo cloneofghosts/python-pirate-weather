@@ -112,6 +112,8 @@ class EndToEnd(unittest.TestCase):
         assert flags.processTime
         assert flags.ingestVersion
         assert flags.nearestCity == "Amsterdam"
+        assert flags.nearestCountry == "Netherlands"
+        assert flags.nearestSubNational == "North Holland"
 
     def test_invalid_key(self):
         """Test querying the API endpoint with a invalid API key."""

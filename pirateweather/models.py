@@ -111,6 +111,8 @@ class PirateWeatherFlagsBlock(UnicodeMixin):
         self.processTime = d.get("processTime")
         self.ingestVersion = d.get("ingestVersion")
         self.nearestCity = d.get("nearestCity")
+        self.nearestCountry = d.get("nearestCountry")
+        self.nearestSubNational = d.get("nearestSubNational")
 
     def __unicode__(self):
         """Return a string representation of the data block."""

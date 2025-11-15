@@ -112,6 +112,8 @@ The **Forecast** object, it contains both weather data and the HTTP response fro
 	- Returns a PirateWeatherDataBlock object
 - **daily()**
 	- Returns a PirateWeatherDataBlock object
+- **flags()**
+	- Returns a PirateWeatherFlagsBlock object
 - **update()**
 	- Refreshes the forecast data by making a new request.
 
@@ -154,6 +156,36 @@ Data points have many attributes, but **not all of them are always available**. 
 	- A numerical value between 0 and 1 (inclusive) representing the probability of precipitation occurring at the given time.
 
 For a full list of PirateWeatherDataPoint attributes and attribute descriptions, take a look at the Pirate Weather data point documentation (https://pirateweather.net/en/latest/API/#data-point)
+
+----------------------------------------------------
+
+
+*class* pirateweather.models.FlagsDataBlock
+---------------------------------------------
+
+Contains data about the flags used to generate the forecast.
+
+**Attributes** *(descriptions taken from the pirateweather.net website)*
+- **units**
+	- Indicates which units were used in the forecasts.
+- **version**
+	- The version of Pirate Weather used to generate the forecast.
+- **nearestStation**
+	- Not implemented, and will always return 0.
+- **sources**
+	- The models used to generate the forecast.
+- **sourceTimes**
+	- The time in UTC when the model was last updated.
+- **processTime**
+	- The time taken to process the request in milliseconds.
+- **ingestVersion**
+	- The ingest version of Pirate Weather used to generate the forecast.
+- **nearestCity**
+	- The name of the closest city to your location.
+- **nearestCountry**
+	- The country name of the closest city to your location.
+- **nearestSubNational**
+	- The sub national name of the closest city to your location.
 
 ----------------------------------------------------
 
