@@ -160,8 +160,8 @@ For a full list of PirateWeatherDataPoint attributes and attribute descriptions,
 ----------------------------------------------------
 
 
-*class* pirateweather.models.FlagsDataBlock
----------------------------------------------
+*class* pirateweather.models.PirateWeatherFlagsBlock
+---------------------------------------------------
 
 Contains data about the flags used to generate the forecast.
 
