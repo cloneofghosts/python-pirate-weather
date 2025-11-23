@@ -96,6 +96,21 @@ class EndToEnd(unittest.TestCase):
         assert forecast.response.status_code == 200
         assert fc_cur.stationPressure
 
+    def test_day_night(self):
+        """Test querying the API endpoint."""
+
+        forecast = pirateweather.load_forecast(
+            self.api_key, self.lat, self.lng, units="auto", include="day_night_forecast"
+        )
+        fc_dn = forecast.day_night()
+
+        assert forecast.response.status_code == 200
+        assert forecast.response.url.find("include=day_night_forecast") >= 0
+        assert len(fc_dn.data) == 16
+        assert fc_dn.data[0].humidity
+        assert fc_dn.data[0].summary
+        assert fc_dn.data[0].precipType
+
     def test_flags(self):
         """Test the data returned by the flags block."""
 
@@ -104,8 +119,8 @@ class EndToEnd(unittest.TestCase):
         )
         flags = forecast.flags()
 
-        assert len(flags.sources) == 3
-        assert len(flags.sourceTimes) == 2
+        assert len(flags.sources) == 4
+        assert len(flags.sourceTimes) == 3
         assert flags.nearestStation == 0
         assert flags.units == "si"
         assert flags.sourceTimes.get("gfs")
