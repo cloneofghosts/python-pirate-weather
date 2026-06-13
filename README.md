@@ -36,18 +36,16 @@ To use the wrapper:
 	forecast = pirateweather.load_forecast(api_key, lat, lng)
 ```
 
-Starting in version 2.9.6 you can use a city,country pair to query the API with.
-
-
+Starting in version 2.9.6 you can use a city,country pair to query the API with and can be used like this:
 
 ```python
 	import pirateweather
 
 	api_key = "YOUR API KEY"
-	lat = "New York"
-	lng = "US"
+	city_name = "New York"
+	country_name = "US"
 
-	forecast = pirateweather.load_forecast(api_key, lat, lng)
+	forecast = pirateweather.load_forecast(api_key, city_name, country_name)
 ```
 
 The ``load_forecast()`` method has a few optional parameters. Providing your API key, a latitude and longitude are the only required parameters.
