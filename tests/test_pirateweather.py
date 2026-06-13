@@ -51,7 +51,10 @@ class EndToEnd(unittest.TestCase):
         """Test querying the API endpoint with a city name."""
 
         forecast = pirateweather.load_forecast(
-            self.api_key, "London", "GB", time=self.time,
+            self.api_key,
+            "London",
+            "GB",
+            time=self.time,
         )
         assert forecast.response.status_code == 200
 
