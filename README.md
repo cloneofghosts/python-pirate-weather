@@ -186,7 +186,7 @@ Contains data about the flags used to generate the forecast.
 - **version**
 	- The version of Pirate Weather used to generate the forecast.
 - **nearestStation**
-	- Not implemented, and will always return 0.
+	- The distance to the closest MOSMIX station to your location. If no station is nearby the return value will be -999.
 - **sources**
 	- The models used to generate the forecast.
 - **sourceTimes**
