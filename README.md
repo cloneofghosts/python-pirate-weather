@@ -36,6 +36,20 @@ To use the wrapper:
 	forecast = pirateweather.load_forecast(api_key, lat, lng)
 ```
 
+Starting in version 2.9.6 you can use a city,country pair to query the API with.
+
+
+
+```python
+	import pirateweather
+
+	api_key = "YOUR API KEY"
+	lat = "New York"
+	lng = "US"
+
+	forecast = pirateweather.load_forecast(api_key, lat, lng)
+```
+
 The ``load_forecast()`` method has a few optional parameters. Providing your API key, a latitude and longitude are the only required parameters.
 
 Use the ``forecast.DataBlockType()`` eg. ``currently()``, ``daily()``, ``hourly()``, ``minutely()`` or ``flags()`` methods to load the data you are after.
@@ -64,8 +78,8 @@ This makes an API request and returns a **Forecast** object (see below).
 
 Parameters:
 - **key** - Your API key from https://pirateweather.net/en/latest/.
-- **latitude** - The latitude of the location for the forecast
-- **longitude** - The longitude of the location for the forecast
+- **latitude** - The latitude or city name of the location for the forecast
+- **longitude** - The longitude or country code of the location for the forecast
 - **time** - (optional) A datetime object for the forecast either in the past or future - see How Timezones Work below for the details on how timezones are handled in this library.
 - **units** - (optional) A string of the preferred units of measurement, "auto" is the default. "us","ca","uk","si" are also available. See the API Docs (https://pirateweather.net/en/latest/API/#units) for exactly what each unit means.
 - **lang** - (optional) A string of the desired language. See https://pirateweather.net/en/latest/API/#language for supported languages.
