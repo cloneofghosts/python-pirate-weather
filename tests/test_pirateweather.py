@@ -47,6 +47,17 @@ class EndToEnd(unittest.TestCase):
         assert forecast.response.status_code == 200
         assert forecast.response.url.find("lang=de") >= 0
 
+    def test_with_city_name(self):
+        """Test querying the API endpoint with a city name."""
+
+        forecast = pirateweather.load_forecast(
+            self.api_key,
+            "London",
+            "GB",
+            time=self.time,
+        )
+        assert forecast.response.status_code == 200
+
     def test_without_time(self):
         """Test querying the API endpoint."""
 
@@ -119,9 +130,9 @@ class EndToEnd(unittest.TestCase):
         )
         flags = forecast.flags()
 
-        assert len(flags.sources) == 4
-        assert len(flags.sourceTimes) == 3
-        assert flags.nearestStation == 0
+        assert len(flags.sources) == 5
+        assert len(flags.sourceTimes) == 4
+        assert flags.nearestStation == 11.97
         assert flags.units == "si"
         assert flags.sourceTimes.get("gfs")
         assert flags.processTime
