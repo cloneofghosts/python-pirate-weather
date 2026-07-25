@@ -63,8 +63,8 @@ These methods return a DataBlock. Except ``currently()`` which returns a DataPoi
 The .data attributes for each DataBlock is a list of DataPoint objects. This is where all the good data is :)
 
 ```python
-	for hourlyData in byHour.data:
-		print(hourlyData.temperature)
+for hourlyData in byHour.data:
+    print(hourlyData.temperature)
 ```
 
 ## Advanced
@@ -86,7 +86,7 @@ Parameters:
 - **version** - (optional) Defaults to `1`. If set to `2` the API will return fields that were not part of the Dark Sky API.
 - **icon** - (optional) Defaults to `darksky`. If set to `pirate` the API will return icons which aren't apart of the default Dark Sky icon set.
 - **extraVars** - (optional) Is used to add additional parameters to the API response. The only extra parameter at the moment is `stationPressure` but more may be added in the future.
-- **include** - (optional) Is used to add additional data blocks to the API response. The only accepted parameter at the moment is `day_night_forecast` but `aqi` may be added in the future.
+- **include** - (optional) Is used to add additional data blocks to the API response. The accepted parameters at the moment are `day_night_forecast` and `airqualitydetails`.
 - **callback** - (optional) Pass a function to be used as a callback. If used, load_forecast() will use an asynchronous HTTP call and **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
 
 ----------------------------------------------------
@@ -214,23 +214,23 @@ Returned times eg the time parameter on the currently DataPoint are always in UT
 Typically, would would want to do something like this:
 
 ```python
-  # Amsterdam
-  lat  = 52.370235
-  lng  = 4.903549
-  current_time = datetime(2015, 2, 27, 6, 0, 0)
-  forecast = pirateweather.load_forecast(api_key, lat, lng, time=current_time)
+# Amsterdam
+lat = 52.370235
+lng = 4.903549
+current_time = datetime(2015, 2, 27, 6, 0, 0)
+forecast = pirateweather.load_forecast(api_key, lat, lng, time=current_time)
 ```
 
 Be caerful, things can get confusing when doing something like the below. Given that I'm looking up the weather in Amsterdam (+2) while I'm in Perth, Australia (+8).
 
 ```python
-  # Amsterdam
-  lat  = 52.370235
-  lng  = 4.903549
+# Amsterdam
+lat = 52.370235
+lng = 4.903549
 
-  current_time = datetime.datetime.now()
+current_time = datetime.datetime.now()
 
-  forecast = pirateweather.load_forecast(api_key, lat, lng, time=current_time)
+forecast = pirateweather.load_forecast(api_key, lat, lng, time=current_time)
 ```
 
 The result is actually a request for the weather in the future in Amsterdam (by 6 hours) which isn't supported by the Pirate Weather API.

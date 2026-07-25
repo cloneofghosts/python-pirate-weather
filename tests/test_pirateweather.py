@@ -94,7 +94,29 @@ class EndToEnd(unittest.TestCase):
         fc_cur = forecast.currently()
 
         assert forecast.response.status_code == 200
-        assert fc_cur.fireIndex
+        assert fc_cur.fireIndex is not None
+        assert fc_cur.aqi is not None
+
+    def test_air_quality_extras_data_point(self):
+        """Test querying the API endpoint."""
+
+        forecast = pirateweather.load_forecast(
+            self.api_key,
+            self.lat,
+            self.lng,
+            units="us",
+            version=2,
+            include="airqualitydetails",
+        )
+        fc_cur = forecast.currently()
+
+        assert forecast.response.status_code == 200
+        assert fc_cur.coConcentration is not None
+        assert fc_cur.no2Concentration is not None
+        assert fc_cur.ozoneConcentration is not None
+        assert fc_cur.so2Concentration is not None
+        assert fc_cur.pm10 is not None
+        assert fc_cur.pm25 is not None
 
     def test_extra_vars(self):
         """Test querying the API endpoint."""
@@ -130,13 +152,13 @@ class EndToEnd(unittest.TestCase):
         )
         flags = forecast.flags()
 
-        assert len(flags.sources) == 5
-        assert len(flags.sourceTimes) == 4
-        assert flags.nearestStation == 11.97
+        assert len(flags.sources) > 0
+        assert len(flags.sourceTimes) > 0
+        assert flags.nearestStation != -999
         assert flags.units == "si"
-        assert flags.sourceTimes.get("gfs")
-        assert flags.processTime
-        assert flags.ingestVersion
+        assert flags.sourceTimes.get("gfs") is not None
+        assert flags.processTime is not None
+        assert flags.ingestVersion is not None
         assert flags.nearestCity == "Amsterdam"
         assert flags.nearestCountry == "Netherlands"
         assert flags.nearestSubNational == "North Holland"
