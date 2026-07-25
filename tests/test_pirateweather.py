@@ -101,7 +101,12 @@ class EndToEnd(unittest.TestCase):
         """Test querying the API endpoint."""
 
         forecast = pirateweather.load_forecast(
-            self.api_key, self.lat, self.lng, units="us", version=2, include="airqualitydetails"
+            self.api_key,
+            self.lat,
+            self.lng,
+            units="us",
+            version=2,
+            include="airqualitydetails",
         )
         fc_cur = forecast.currently()
 
