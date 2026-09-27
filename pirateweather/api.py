@@ -21,6 +21,7 @@ def load_forecast(
     icon="darksky",
     extraVars=None,
     include=None,
+    aqiunits=None,
 ):
     """Build the request url and loads some or all of the needed json depending on lazy is True.
 
@@ -41,6 +42,7 @@ def load_forecast(
     icon: If set to pirate the API will return icons which aren't apart of the default Dark Sky icon set
     extraVars: Is used to add additional parameters to the API response.
     include: Is used to add additional data blocks to the API response.
+    aqiunits: Is used to override the default units based AQI scale with your selected scale.
     """
 
     if time is None:
@@ -51,6 +53,8 @@ def load_forecast(
             url += f"&extraVars={extraVars}"
         if include:
             url += f"&include={include}"
+        if aqiunits:
+            url += f"&aqiunits={aqiunits}"
     else:
         url_time = time.replace(
             microsecond=0
