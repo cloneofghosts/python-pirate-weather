@@ -85,6 +85,7 @@ Parameters:
 - **extend** - (optional) Defaults to `false`. If `"hourly"` the API will hourly data for 168 hours instead of the standard 48 hours.
 - **version** - (optional) Defaults to `1`. If set to `2` the API will return fields that were not part of the Dark Sky API.
 - **icon** - (optional) Defaults to `darksky`. If set to `pirate` the API will return icons which aren't apart of the default Dark Sky icon set.
+- **aqiunits** - (optional) Allows you to override the default units based AQI scale with your selected scale.
 - **extraVars** - (optional) Is used to add additional parameters to the API response. The only extra parameter at the moment is `stationPressure` but more may be added in the future.
 - **include** - (optional) Is used to add additional data blocks to the API response. The accepted parameters at the moment are `day_night_forecast` and `airqualitydetails`.
 - **callback** - (optional) Pass a function to be used as a callback. If used, load_forecast() will use an asynchronous HTTP call and **will not return the forecast object directly**, instead it will be passed to the callback function. Make sure it can accept it.
