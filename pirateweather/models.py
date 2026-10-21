@@ -1,6 +1,6 @@
 """Models used in the Pirate Weather library."""
 
-import datetime
+import datetime as dt
 
 import requests
 
@@ -131,20 +131,20 @@ class PirateWeatherDataPoint(UnicodeMixin):
         self.d = d
 
         try:
-            self.time = datetime.datetime.fromtimestamp(int(d["time"]))
+            self.time = dt.datetime.fromtimestamp(int(d["time"]))
             self.utime = d["time"]
         except KeyError:
             pass
 
         try:
             sr_time = int(d["sunriseTime"])
-            self.sunriseTime = datetime.datetime.fromtimestamp(sr_time)
+            self.sunriseTime = dt.datetime.fromtimestamp(sr_time)
         except KeyError:
             self.sunriseTime = None
 
         try:
             ss_time = int(d["sunsetTime"])
-            self.sunsetTime = datetime.datetime.fromtimestamp(ss_time)
+            self.sunsetTime = dt.datetime.fromtimestamp(ss_time)
         except KeyError:
             self.sunsetTime = None
 
