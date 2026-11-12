@@ -1,4 +1,3 @@
-pynose==1.5.5
 coverage==7.17.2
 coveralls==4.1.0
 responses==0.26.3
