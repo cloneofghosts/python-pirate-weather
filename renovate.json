@@ -13,10 +13,17 @@
       "matchPackageNames": [
         "*"
       ]
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "semanticCommitType": "ci"
     }
   ],
   "extends": [
     "config:best-practices",
-    "group:recommended"
+    "group:recommended",
+    ":semanticCommits"
   ]
 }
