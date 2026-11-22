@@ -3,12 +3,15 @@
 import os
 import unittest
 from datetime import datetime
+from pathlib import Path
 
 import pytest
 import requests
 import responses
 
 import pirateweather
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 
 class EndToEnd(unittest.TestCase):
@@ -202,9 +205,7 @@ class BasicFunctionality(unittest.TestCase):
         responses.add(
             responses.GET,
             URL,
-            body=open(
-                os.path.join(os.path.dirname(__file__), "fixtures", "test.json")
-            ).read(),
+            body=(FIXTURES / "test.json").read_text(),
             status=200,
             content_type="application/json",
             match=[
@@ -313,11 +314,7 @@ class ForecastsWithAlerts(unittest.TestCase):
         responses.add(
             responses.GET,
             URL,
-            body=open(
-                os.path.join(
-                    os.path.dirname(__file__), "fixtures", "test_with_alerts.json"
-                )
-            ).read(),
+            body=(FIXTURES / "test_with_alerts.json").read_text(),
             status=200,
             content_type="application/json",
             match=[
@@ -398,9 +395,7 @@ class BasicManualURL(unittest.TestCase):
         responses.add(
             responses.GET,
             URL,
-            body=open(
-                os.path.join(os.path.dirname(__file__), "fixtures", "test.json")
-            ).read(),
+            body=(FIXTURES / "test.json").read_text(),
             status=200,
             content_type="application/json",
         )

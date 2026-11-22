@@ -4,10 +4,8 @@ import datetime as dt
 
 import requests
 
-from pirateweather.utils import UnicodeMixin
 
-
-class Forecast(UnicodeMixin):
+class Forecast:
     """Represent the forecast data and provide methods to access weather blocks."""
 
     def __init__(self, data, response, headers):
@@ -84,7 +82,7 @@ class Forecast(UnicodeMixin):
             return PirateWeatherDataBlock()
 
 
-class PirateWeatherDataBlock(UnicodeMixin):
+class PirateWeatherDataBlock:
     """Represent a block of weather data such as minutely, hourly, or daily summaries."""
 
     def __init__(self, d=None):
@@ -96,12 +94,12 @@ class PirateWeatherDataBlock(UnicodeMixin):
             PirateWeatherDataPoint(datapoint) for datapoint in d.get("data", [])
         ]
 
-    def __unicode__(self):
+    def __str__(self):
         """Return a string representation of the data block."""
         return f"<PirateWeatherDataBlock instance: {self.summary} with {len(self.data)} PirateWeatherDataPoints>"
 
 
-class PirateWeatherFlagsBlock(UnicodeMixin):
+class PirateWeatherFlagsBlock:
     """Represent a block of flags data."""
 
     def __init__(self, d=None):
@@ -118,12 +116,12 @@ class PirateWeatherFlagsBlock(UnicodeMixin):
         self.nearestCountry = d.get("nearestCountry")
         self.nearestSubNational = d.get("nearestSubNational")
 
-    def __unicode__(self):
+    def __str__(self):
         """Return a string representation of the data block."""
         return f"<PirateWeatherFlagsDataBlock instance: {self.version}>"
 
 
-class PirateWeatherDataPoint(UnicodeMixin):
+class PirateWeatherDataPoint:
     """Represent a single data point in a weather forecast, such as an hourly or daily data point."""
 
     def __init__(self, d={}):
@@ -155,12 +153,12 @@ class PirateWeatherDataPoint(UnicodeMixin):
         except KeyError:
             return None
 
-    def __unicode__(self):
+    def __str__(self):
         """Return a string representation of the data point."""
         return f"<PirateWeatherDataPoint instance: {self.summary} at {self.time}>"
 
 
-class Alert(UnicodeMixin):
+class Alert:
     """Represent a weather alert, such as a storm warning or flood alert."""
 
     def __init__(self, json):
@@ -174,6 +172,6 @@ class Alert(UnicodeMixin):
         except KeyError:
             return None
 
-    def __unicode__(self):
+    def __str__(self):
         """Return a string representation of the alert."""
         return f"<Alert instance: {self.title} at {self.time}>"
