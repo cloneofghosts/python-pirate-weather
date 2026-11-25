@@ -1,5 +1,5 @@
-coverage==7.17.3
+coverage==7.17.5
 coveralls==4.1.0
 responses==0.26.3
-ruff==0.17.5
+ruff==0.17.6
 pytest==9.2.0
